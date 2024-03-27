@@ -59,11 +59,7 @@ public class Board {
     }
 
     private void removeTargetPieceIfAttacked(final Piece sourcePiece, final Square targetSquare) {
-        pieces.stream()
-                .filter(piece -> piece.isLocated(targetSquare))
-                .filter(piece -> piece.getColor() != sourcePiece.getColor())
-                .findFirst()
-                .ifPresent(pieces::remove);
+        pieces.removeIf(piece -> piece.isLocated(targetSquare) && piece.getColor() != sourcePiece.getColor());
     }
 
     public List<PieceDrawing> getStatus() {
