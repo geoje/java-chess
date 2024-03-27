@@ -41,10 +41,13 @@ public class BoardFactory {
 
     private static Set<Piece> createPiecesWithoutPawn(final Rank rank, final PieceColor pieceColor) {
         return Arrays.stream(File.values())
-                .map(file -> PIECES_ARRANGEMENT.get(file.ordinal()).apply(
-                        pieceColor,
-                        Square.of(file, rank)))
+                .map(file -> createPiece(rank, pieceColor, file))
                 .collect(Collectors.toSet());
+    }
+
+    private static Piece createPiece(Rank rank, PieceColor pieceColor, File file) {
+        Square square = Square.of(file, rank);
+        return PIECES_ARRANGEMENT.get(file.ordinal()).apply(pieceColor, square);
     }
 
     private static Set<Piece> createPawns(final Rank rank, final PieceColor pieceColor) {
