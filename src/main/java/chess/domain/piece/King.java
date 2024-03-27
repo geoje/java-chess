@@ -33,8 +33,8 @@ public class King extends Piece {
     }
 
     private boolean isStepUnderLimit(final Square target) {
-        return square.distanceFileFrom(target) <= STEP_LIMIT &&
-                square.distanceRankFrom(target) <= STEP_LIMIT;
+        return square.calculateFileDistance(target) <= STEP_LIMIT &&
+                square.calculateRankDistance(target) <= STEP_LIMIT;
     }
 
     @Override

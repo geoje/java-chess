@@ -32,7 +32,7 @@ public class Pawn extends Piece {
     }
 
     private void validateAttackStepLimit(final Square target) {
-        if (square.distanceRankFrom(target) > STEP_LIMIT) {
+        if (square.calculateRankDistance(target) > STEP_LIMIT) {
             throw new IllegalArgumentException(ERROR_CANNOT_REACH);
         }
     }
@@ -50,8 +50,8 @@ public class Pawn extends Piece {
     }
 
     private void validateMoveStepLimit(final Square target) {
-        if ((!isFirstStep() && square.distanceRankFrom(target) > STEP_LIMIT) ||
-                square.distanceRankFrom(target) > FIRST_STEP_LIMIT) {
+        if ((!isFirstStep() && square.calculateRankDistance(target) > STEP_LIMIT) ||
+                square.calculateRankDistance(target) > FIRST_STEP_LIMIT) {
             throw new IllegalArgumentException(ERROR_CANNOT_REACH);
         }
     }

@@ -76,14 +76,14 @@ public class Square {
     }
 
     public boolean isSameDiagonal(final Square other) {
-        return distanceRankFrom(other) == distanceFileFrom(other);
+        return calculateRankDistance(other) == calculateFileDistance(other);
     }
 
-    public int distanceFileFrom(final Square other) {
+    public int calculateFileDistance(final Square other) {
         return file.distanceFrom(other.file);
     }
 
-    public int distanceRankFrom(final Square other) {
+    public int calculateRankDistance(final Square other) {
         return rank.distanceFrom(other.rank);
     }
 

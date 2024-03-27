@@ -132,7 +132,7 @@ class SquareTest {
         Square target = Square.from("c6");
 
         // when
-        int distance = source.distanceFileFrom(target);
+        int distance = source.calculateFileDistance(target);
 
         // then
         assertThat(distance).isEqualTo(1);
@@ -146,7 +146,7 @@ class SquareTest {
         Square target = Square.from("b6");
 
         // when
-        int distance = source.distanceRankFrom(target);
+        int distance = source.calculateRankDistance(target);
 
         // then
         assertThat(distance).isEqualTo(1);
