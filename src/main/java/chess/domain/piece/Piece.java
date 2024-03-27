@@ -36,4 +36,11 @@ public abstract class Piece {
         Piece piece = (Piece) o;
         return color == piece.color && square.equals(piece.square);
     }
+
+    @Override
+    public int hashCode() {
+        int result = color != null ? color.hashCode() : 0;
+        result = 31 * result + (square != null ? square.hashCode() : 0);
+        return result;
+    }
 }
