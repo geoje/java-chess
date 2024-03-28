@@ -23,11 +23,11 @@ class BoardTest {
         // given
         Square source = Square.from("b3");
         Square target = Square.from("b4");
-        Rook piece = new Rook(PieceColor.BLACK, source);
+        Rook piece = new Rook(PieceColor.WHITE, source);
         Board board = new Board(Set.of(piece));
 
         // when
-        board.move(source, target, piece.getColor());
+        board.move(source, target);
 
         // then
         assertThat(board.existOnSquare(target)).isTrue();
@@ -43,7 +43,7 @@ class BoardTest {
         Board board = new Board(Set.of(piece));
 
         // when & then
-        assertThatCode(() -> board.move(source, target, piece.getColor().opposite()))
+        assertThatCode(() -> board.move(source, target))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("선택한 기물의 팀의 차례가 아닙니다.");
 
@@ -55,11 +55,11 @@ class BoardTest {
         // given
         Square source = Square.from("b3");
         Square target = Square.from("b3");
-        Rook piece = new Rook(PieceColor.BLACK, source);
+        Rook piece = new Rook(PieceColor.WHITE, source);
         Board board = new Board(Set.of(piece));
 
         // when & then
-        assertThatCode(() -> board.move(source, target, piece.getColor()))
+        assertThatCode(() -> board.move(source, target))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("제자리로 이동할 수 없습니다.");
     }
@@ -73,7 +73,7 @@ class BoardTest {
         Square target = Square.from("b4");
 
         // when & then
-        assertThatCode(() -> board.move(source, target, PieceColor.BLACK))
+        assertThatCode(() -> board.move(source, target))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("해당 위치에 기물이 존재하지 않습니다.");
     }
@@ -155,12 +155,12 @@ class BoardTest {
         // given
         Square source = Square.from("b3");
         Square target = Square.from("b4");
-        Rook piece = new Rook(PieceColor.BLACK, source);
-        Rook enemy = new Rook(PieceColor.WHITE, target);
+        Rook piece = new Rook(PieceColor.WHITE, source);
+        Rook enemy = new Rook(PieceColor.BLACK, target);
         Board board = new Board(Set.of(piece, enemy));
 
         // when
-        board.move(source, target, piece.getColor());
+        board.move(source, target);
         boolean targetColor = board.existOnSquareWithColor(target, piece.getColor());
 
         // then
