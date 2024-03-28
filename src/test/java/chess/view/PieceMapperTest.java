@@ -27,7 +27,7 @@ class PieceMapperTest {
 
     @Test
     @DisplayName("도메인의 모든 기물 타입이 변환될 수 있다.")
-    void mapForAllPieceType() {
+    void mapForAll() {
         // given
         String colorName = PieceColor.WHITE.name();
 
