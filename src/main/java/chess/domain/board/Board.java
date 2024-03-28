@@ -57,8 +57,8 @@ public class Board {
     }
 
     private void removeTargetPieceIfAttacked(final Piece sourcePiece, final Square targetSquare) {
-        pieces.removeIf(piece -> piece.isLocated(targetSquare) &&
-                piece.getColor() != sourcePiece.getColor());
+        pieces.removeIf(piece -> piece.isLocated(targetSquare)
+                && piece.getColor() != sourcePiece.getColor());
     }
 
     public List<PieceDrawing> getStatus() {

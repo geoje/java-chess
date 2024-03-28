@@ -32,13 +32,13 @@ public class Knight extends Piece {
     }
 
     private boolean isStraightRankSideFile(final Square target) {
-        return square.calculateRankDistance(target) == STRAIGHT_STEP &&
-                square.calculateFileDistance(target) == SIDE_STEP;
+        return square.calculateRankDistance(target) == STRAIGHT_STEP
+                && square.calculateFileDistance(target) == SIDE_STEP;
     }
 
     private boolean isStraightFileSideRank(final Square target) {
-        return square.calculateFileDistance(target) == STRAIGHT_STEP &&
-                square.calculateRankDistance(target) == SIDE_STEP;
+        return square.calculateFileDistance(target) == STRAIGHT_STEP
+                && square.calculateRankDistance(target) == SIDE_STEP;
     }
 
     @Override
