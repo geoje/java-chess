@@ -63,16 +63,16 @@ public class Square {
         return file == other.file;
     }
 
-    public boolean isSameFile(final File otherFile) {
-        return file == otherFile;
+    public boolean isSameFile(final File file) {
+        return this.file == file;
     }
 
     public boolean isSameRank(final Square other) {
         return rank == other.rank;
     }
 
-    public boolean isSameRank(final Rank otherRank) {
-        return rank == otherRank;
+    public boolean isSameRank(final Rank rank) {
+        return this.rank == rank;
     }
 
     public boolean isSameDiagonal(final Square other) {
