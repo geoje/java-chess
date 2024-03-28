@@ -7,6 +7,8 @@ import java.util.List;
 
 public class Queen extends Piece {
 
+    private static final double SCORE = 9;
+
     public Queen(final PieceColor color, final Square square) {
         super(color, square);
     }
@@ -47,5 +49,10 @@ public class Queen extends Piece {
     @Override
     public PieceType getType() {
         return PieceType.QUEEN;
+    }
+
+    @Override
+    public double getScore(Board board) {
+        return SCORE;
     }
 }

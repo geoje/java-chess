@@ -14,6 +14,9 @@ public class Pawn extends Piece {
     private static final Rank FIRST_RANK_BLACK = Rank.SEVEN;
     private static final Rank FIRST_RANK_WHITE = Rank.TWO;
     private static final String MESSAGE_CANNOT_REACH = "폰의 이동 방법으로 갈 수 없는 곳입니다.";
+    private static final double NORMAL_SCORE = 1;
+    private static final double SPECIAL_SCORE = 0.5;
+    private static final int PAWN_COUNT_FOR_SPECIAL = 2;
 
     public Pawn(final PieceColor color, final Square square) {
         super(color, square);
@@ -64,14 +67,14 @@ public class Pawn extends Piece {
     }
 
     private boolean isForward(final Square target) {
-        if (getColor() == PieceColor.BLACK) {
+        if (color == PieceColor.BLACK) {
             return square.isUpperThan(target);
         }
         return square.isLowerThan(target);
     }
 
     private boolean isFirstStep() {
-        if (getColor() == PieceColor.BLACK) {
+        if (color == PieceColor.BLACK) {
             return square.isSameRank(FIRST_RANK_BLACK);
         }
         return square.isSameRank(FIRST_RANK_WHITE);
@@ -82,11 +85,19 @@ public class Pawn extends Piece {
     }
 
     private boolean existEnemyOnTarget(Board board, Square target) {
-        return board.existOnSquareWithColor(target, getColor().opposite());
+        return board.existOnSquareWithColor(target, color.opposite());
     }
 
     @Override
     public PieceType getType() {
         return PieceType.PAWN;
+    }
+
+    @Override
+    public double getScore(Board board) {
+        if (board.getPawnCountOnSameFile(square, color) >= PAWN_COUNT_FOR_SPECIAL) {
+            return SPECIAL_SCORE;
+        }
+        return NORMAL_SCORE;
     }
 }

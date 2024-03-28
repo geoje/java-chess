@@ -7,6 +7,8 @@ import java.util.List;
 
 public class Bishop extends Piece {
 
+    private static final int SCORE = 3;
+
     public Bishop(final PieceColor color, final Square square) {
         super(color, square);
     }
@@ -41,5 +43,10 @@ public class Bishop extends Piece {
     @Override
     public PieceType getType() {
         return PieceType.BISHOP;
+    }
+
+    @Override
+    public double getScore(Board board) {
+        return SCORE;
     }
 }

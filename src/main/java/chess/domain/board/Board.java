@@ -66,4 +66,11 @@ public class Board {
                 .map(PieceDrawing::from)
                 .toList();
     }
+
+    public int getPawnCountOnSameFile(Square square, PieceColor color) {
+        return (int) pieces.stream()
+                .filter(piece -> square.isSameFile(piece.getSquare()))
+                .filter(piece -> color == piece.getColor())
+                .count();
+    }
 }

@@ -6,6 +6,7 @@ import chess.domain.square.Square;
 public class King extends Piece {
 
     private static final int STEP_LIMIT = 1;
+    private static final double SCORE = 0;
 
     public King(final PieceColor color, final Square square) {
         super(color, square);
@@ -38,5 +39,10 @@ public class King extends Piece {
     @Override
     public PieceType getType() {
         return PieceType.KING;
+    }
+
+    @Override
+    public double getScore(Board board) {
+        return SCORE;
     }
 }

@@ -93,4 +93,19 @@ class KingTest {
         // then
         assertThat(type).isEqualTo(PieceType.KING);
     }
+
+    @Test
+    @DisplayName("점수를 계산한다.")
+    void getScoreTest() {
+        // given
+        Square source = Square.from("c6");
+        King king = new King(PieceColor.BLACK, source);
+        Board board = new Board(Set.of(king));
+
+        // when
+        double score = king.getScore(board);
+
+        // then
+        assertThat(score).isEqualTo(0);
+    }
 }

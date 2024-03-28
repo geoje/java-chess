@@ -109,4 +109,19 @@ class QueenTest {
         // then
         assertThat(type).isEqualTo(PieceType.QUEEN);
     }
+
+    @Test
+    @DisplayName("점수를 계산한다.")
+    void getScoreTest() {
+        // given
+        Square source = Square.from("c6");
+        Queen queen = new Queen(PieceColor.BLACK, source);
+        Board board = new Board(Set.of(queen));
+
+        // when
+        double score = queen.getScore(board);
+
+        // then
+        assertThat(score).isEqualTo(9);
+    }
 }

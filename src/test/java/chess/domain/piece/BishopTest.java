@@ -109,4 +109,19 @@ class BishopTest {
         // then
         assertThat(type).isEqualTo(PieceType.BISHOP);
     }
+
+    @Test
+    @DisplayName("점수를 계산한다.")
+    void getScoreTest() {
+        // given
+        Square source = Square.from("c6");
+        Bishop bishop = new Bishop(PieceColor.BLACK, source);
+        Board board = new Board(Set.of(bishop));
+
+        // when
+        double score = bishop.getScore(board);
+
+        // then
+        assertThat(score).isEqualTo(3);
+    }
 }

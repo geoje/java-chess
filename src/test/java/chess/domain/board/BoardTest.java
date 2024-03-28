@@ -1,6 +1,7 @@
 package chess.domain.board;
 
 import chess.domain.piece.Knight;
+import chess.domain.piece.Pawn;
 import chess.domain.piece.PieceColor;
 import chess.domain.piece.Rook;
 import chess.domain.square.Square;
@@ -186,5 +187,24 @@ class BoardTest {
 
         // then
         assertThat(pieceDrawings).containsExactlyInAnyOrderElementsOf(expected);
+    }
+
+    @Test
+    @DisplayName("특정한 파일에 폰의 개수를 계산한다.")
+    void getPawnCountOnSameFile() {
+        // given
+        Pawn blackPawn = new Pawn(PieceColor.BLACK, Square.from("b2"));
+        Board board = new Board(Set.of(
+                blackPawn,
+                new Pawn(PieceColor.BLACK, Square.from("b4")),
+                new Pawn(PieceColor.WHITE, Square.from("e3")),
+                new Pawn(PieceColor.WHITE, Square.from("e5"))
+        ));
+
+        // when
+        int pawnCount = board.getPawnCountOnSameFile(blackPawn.getSquare(), blackPawn.getColor());
+
+        // then
+        assertThat(pawnCount).isEqualTo(2);
     }
 }

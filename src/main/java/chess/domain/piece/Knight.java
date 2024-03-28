@@ -7,6 +7,7 @@ public class Knight extends Piece {
 
     private static final int SIDE_STEP = 1;
     private static final int STRAIGHT_STEP = 2;
+    private static final double SCORE = 2.5;
 
     public Knight(final PieceColor color, final Square square) {
         super(color, square);
@@ -44,5 +45,10 @@ public class Knight extends Piece {
     @Override
     public PieceType getType() {
         return PieceType.KNIGHT;
+    }
+
+    @Override
+    public double getScore(Board board) {
+        return SCORE;
     }
 }

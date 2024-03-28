@@ -93,4 +93,19 @@ class KnightTest {
         // then
         assertThat(type).isEqualTo(PieceType.KNIGHT);
     }
+
+    @Test
+    @DisplayName("점수를 계산한다.")
+    void getScoreTest() {
+        // given
+        Square source = Square.from("c6");
+        Knight knight = new Knight(PieceColor.BLACK, source);
+        Board board = new Board(Set.of(knight));
+
+        // when
+        double score = knight.getScore(board);
+
+        // then
+        assertThat(score).isEqualTo(2.5);
+    }
 }

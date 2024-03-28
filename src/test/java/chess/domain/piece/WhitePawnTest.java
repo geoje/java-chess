@@ -181,4 +181,36 @@ class WhitePawnTest {
         // then
         assertThat(type).isEqualTo(PieceType.PAWN);
     }
+
+    @Test
+    @DisplayName("같은 파일에 흰색 폰이 하나만 있을 경우의 점수를 계산한다.")
+    void getNormalScoreTest() {
+        // given
+        Square source = Square.from("c6");
+        Pawn pawn = new Pawn(PIECE_COLOR, source);
+        Board board = new Board(Set.of(pawn));
+
+        // when
+        double score = pawn.getScore(board);
+
+        // then
+        assertThat(score).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("같은 파일에 흰색 폰이 두개 이상 있을 경우의 점수를 계산한다.")
+    void getSpecialScoreTest() {
+        // given
+        Square source1 = Square.from("c6");
+        Square source2 = Square.from("c7");
+        Pawn pawn1 = new Pawn(PIECE_COLOR, source1);
+        Pawn pawn2 = new Pawn(PIECE_COLOR, source2);
+        Board board = new Board(Set.of(pawn1, pawn2));
+
+        // when
+        double score = pawn1.getScore(board);
+
+        // then
+        assertThat(score).isEqualTo(0.5);
+    }
 }

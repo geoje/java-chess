@@ -5,7 +5,7 @@ import chess.domain.square.Square;
 
 public abstract class Piece {
 
-    private final PieceColor color;
+    protected final PieceColor color;
     protected Square square;
 
     public Piece(final PieceColor color, final Square square) {
@@ -16,6 +16,8 @@ public abstract class Piece {
     public abstract void move(final Board board, final Square target);
 
     public abstract PieceType getType();
+
+    public abstract double getScore(Board board);
 
     public boolean isLocated(final Square other) {
         return square.equals(other);

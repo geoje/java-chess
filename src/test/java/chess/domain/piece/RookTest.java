@@ -109,4 +109,19 @@ class RookTest {
         // then
         assertThat(type).isEqualTo(PieceType.ROOK);
     }
+
+    @Test
+    @DisplayName("점수를 계산한다.")
+    void getScoreTest() {
+        // given
+        Square source = Square.from("c6");
+        Rook rook = new Rook(PieceColor.BLACK, source);
+        Board board = new Board(Set.of(rook));
+
+        // when
+        double score = rook.getScore(board);
+
+        // then
+        assertThat(score).isEqualTo(7);
+    }
 }
