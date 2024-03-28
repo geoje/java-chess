@@ -12,20 +12,22 @@ import java.util.Set;
 public class Board {
 
     private final Set<Piece> pieces;
+    private PieceColor turn = PieceColor.WHITE;
 
     public Board(final Set<Piece> pieces) {
         this.pieces = new HashSet<>(pieces);
     }
 
-    public void move(final Square source, final Square target, final PieceColor turn) {
+    public void move(final Square source, final Square target) {
         Piece sourcePiece = findPiece(source);
-        validateTurn(sourcePiece, turn);
+        validateTurn(sourcePiece);
         validateStay(source, target);
         sourcePiece.move(this, target);
         removeTargetPieceIfAttacked(sourcePiece, target);
+        turn = turn.opposite();
     }
 
-    private void validateTurn(final Piece sourcePiece, final PieceColor turn) {
+    private void validateTurn(final Piece sourcePiece) {
         if (sourcePiece.getColor() != turn) {
             throw new IllegalArgumentException("선택한 기물의 팀의 차례가 아닙니다.");
         }
