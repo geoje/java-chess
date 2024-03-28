@@ -201,4 +201,15 @@ class SquareTest {
         // when & then
         assertThat(square.getRankIndex()).isEqualTo(expectedRankIndex);
     }
+
+    @Test
+    @DisplayName("문자열로 변환한다.")
+    void toStringTest() {
+        // given
+        Square square = Square.from("b3");
+        String expected = "Square{file=B, rank=THREE}";
+
+        // when & then
+        assertThat(square.toString()).isEqualTo(expected);
+    }
 }

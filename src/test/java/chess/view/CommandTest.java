@@ -51,6 +51,23 @@ class CommandTest {
     }
 
     @Test
+    @DisplayName("여러 타입 중 하나인지 확인한다.")
+    void anyMatchTypeTest() {
+        // given
+        Command command = Command.from(List.of("start"));
+        CommandType[] commandTypes = {
+                CommandType.START,
+                CommandType.MOVE
+        };
+
+        // when
+        boolean matched = command.anyMatchType(commandTypes);
+
+        // then
+        assertThat(matched).isTrue();
+    }
+
+    @Test
     @DisplayName("인덱스를 통해 인자를 가져온다.")
     void getArgumentTest() {
         // given
