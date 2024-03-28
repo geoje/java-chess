@@ -18,13 +18,8 @@ public class ChessGame {
     private static final String ERROR_ALREADY_STARTED = "이미 게임이 시작되었습니다.";
     private static final PieceColor START_TURN = PieceColor.WHITE;
 
-    private final InputView inputView;
-    private final OutputView outputView;
-
-    public ChessGame(final InputView inputView, final OutputView outputView) {
-        this.inputView = inputView;
-        this.outputView = outputView;
-    }
+    private final InputView inputView = new InputView();
+    private final OutputView outputView = new OutputView();
 
     public void run() {
         outputView.printStartMessage();
