@@ -3,10 +3,13 @@ package chess.domain.board;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
 import chess.domain.square.Square;
+import chess.dto.GameStatus;
 import chess.dto.PieceDrawing;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class Board {
@@ -61,16 +64,38 @@ public class Board {
                 && piece.getColor() != sourcePiece.getColor());
     }
 
+    public int getPawnCountOnSameFile(Square square, PieceColor color) {
+        return (int) pieces.stream()
+                .filter(piece -> square.isSameFile(piece.getSquare()))
+                .filter(piece -> color == piece.getColor())
+                .count();
+    }
+
     public List<PieceDrawing> getPiecesStatus() {
         return pieces.stream()
                 .map(PieceDrawing::from)
                 .toList();
     }
 
-    public int getPawnCountOnSameFile(Square square, PieceColor color) {
-        return (int) pieces.stream()
-                .filter(piece -> square.isSameFile(piece.getSquare()))
-                .filter(piece -> color == piece.getColor())
-                .count();
+    public GameStatus getGameStatus() {
+        Map<String, Double> scoresByColor = new HashMap<>();
+        for (PieceColor color : PieceColor.values()) {
+            scoresByColor.put(color.name(), calculateTotalScore(color));
+        }
+        return new GameStatus(scoresByColor, calculateWinner(scoresByColor));
+    }
+
+    private double calculateTotalScore(PieceColor color) {
+        return pieces.stream()
+                .filter(piece -> color.equals(piece.getColor()))
+                .mapToDouble(piece -> piece.getScore(this))
+                .sum();
+    }
+
+    private <T> T calculateWinner(Map<T, Double> scores) {
+        return scores.entrySet().stream()
+                .max((o1, o2) -> (int) ((o1.getValue() - o2.getValue()) * 10))
+                .orElseThrow(() -> new IllegalArgumentException("승자가 존재하지 않습니다."))
+                .getKey();
     }
 }

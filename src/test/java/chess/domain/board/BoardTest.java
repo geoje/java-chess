@@ -3,13 +3,16 @@ package chess.domain.board;
 import chess.domain.piece.Knight;
 import chess.domain.piece.Pawn;
 import chess.domain.piece.PieceColor;
+import chess.domain.piece.Queen;
 import chess.domain.piece.Rook;
 import chess.domain.square.Square;
+import chess.dto.GameStatus;
 import chess.dto.PieceDrawing;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -206,5 +209,27 @@ class BoardTest {
 
         // then
         assertThat(pawnCount).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("현재 게임의 점수와 승자 상태를 계산한다.")
+    void getGameStatusTest() {
+        // given
+        Board board = new Board(Set.of(
+                new Queen(PieceColor.BLACK, Square.from("a1")),
+                new Rook(PieceColor.BLACK, Square.from("a2")),
+                new Pawn(PieceColor.BLACK, Square.from("b2")),
+                new Pawn(PieceColor.BLACK, Square.from("b4")),
+                new Queen(PieceColor.WHITE, Square.from("f1")),
+                new Pawn(PieceColor.WHITE, Square.from("e3")),
+                new Pawn(PieceColor.WHITE, Square.from("e5"))
+        ));
+        Map<String, Double> scoresByColor = Map.of("BLACK", 17.0, "WHITE", 10.0);
+
+        // when
+        GameStatus gameStatus = board.getGameStatus();
+
+        // then
+        assertThat(gameStatus).isEqualTo(new GameStatus(scoresByColor, "BLACK"));
     }
 }
