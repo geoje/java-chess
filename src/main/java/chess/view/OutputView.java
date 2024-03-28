@@ -1,5 +1,6 @@
 package chess.view;
 
+import chess.dto.GameStatus;
 import chess.dto.PieceDrawing;
 
 import java.util.Arrays;
@@ -13,6 +14,8 @@ public class OutputView {
             "> 게임 시작 : start%n" +
             "> 게임 종료 : end%n" +
             "> 게임 이동 : move source위치 target위치 - 예. move b2 b3%n";
+    private static final String TITLE_WINNER = "승자: ";
+    private static final String FORMAT_COLOR_SCORE = "%s: %.1f%n";
     private static final String ERROR_MESSAGE_PREFIX = "[ERROR] ";
 
     public void printStartMessage() {
@@ -41,6 +44,17 @@ public class OutputView {
             char pieceSymbol = PieceMapper.map(pieceDrawing.typeName(), pieceDrawing.colorName());
             board[pieceDrawing.rankIndex()][pieceDrawing.fileIndex()] = pieceSymbol;
         }
+    }
+
+    public void printScores(GameStatus gameStatus) {
+        gameStatus.scoresByColor().forEach(this::printScore);
+        System.out.println(TITLE_WINNER + gameStatus.winner());
+        System.out.println();
+    }
+
+    private void printScore(String color, double score) {
+        String outputColor = PieceColorMapper.map(color);
+        System.out.printf(FORMAT_COLOR_SCORE, outputColor, score);
     }
 
     public void printErrorMessage(String message) {
