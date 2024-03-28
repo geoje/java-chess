@@ -8,12 +8,12 @@ public class Ready implements GameState {
 
     private final Board board;
 
-    public Ready(Board board) {
+    public Ready(final Board board) {
         this.board = board;
     }
 
     @Override
-    public GameState play(Command command) {
+    public GameState play(final Command command) {
         if (command.isType(CommandType.START)) {
             return new Progress(board);
         }
