@@ -1,5 +1,6 @@
 package chess.view;
 
+import java.util.Arrays;
 import java.util.List;
 
 public record Command(CommandType type, List<String> arguments) {
@@ -23,6 +24,10 @@ public record Command(CommandType type, List<String> arguments) {
 
     public boolean isType(final CommandType type) {
         return this.type == type;
+    }
+
+    public boolean anyMatchType(final CommandType... types) {
+        return Arrays.stream(types).anyMatch(this::isType);
     }
 
     public String getArgument(final int index) {

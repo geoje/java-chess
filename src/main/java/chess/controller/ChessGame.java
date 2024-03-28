@@ -18,29 +18,26 @@ public class ChessGame {
 
     public void run() {
         outputView.printStartMessage();
-        Command command = requestCommandUntilStartOrEnd();
+        Command command = requestInitCommandUntilValid();
         Board board = BoardFactory.createBoard();
-        outputView.printBoard(board.getStatus());
-
+        if (command.isType(CommandType.START)) {
+            outputView.printBoard(board.getStatus());
+        }
         while (!command.isType(CommandType.END)) {
-            command = requestUntilValid(this::requestCommandOnProgress);
+            command = requestUntilValid(this::requestPlayCommand);
             tryMove(command, board);
         }
     }
 
-    private Command requestCommand() {
-        return requestUntilValid(() -> Command.from(inputView.readCommand()));
-    }
-
-    private Command requestCommandUntilStartOrEnd() {
+    private Command requestInitCommandUntilValid() {
         Command command;
         do {
-            command = requestUntilValid(this::requestCommandOnReady);
-        } while (!command.isType(CommandType.START));
+            command = requestUntilValid(this::requestInitCommand);
+        } while (!command.anyMatchType(CommandType.START, CommandType.END));
         return command;
     }
 
-    private Command requestCommandOnReady() {
+    private Command requestInitCommand() {
         Command command = requestCommand();
         if (command.isType(CommandType.MOVE)) {
             throw new IllegalArgumentException("아직 게임이 시작되지 않았습니다.");
@@ -48,12 +45,16 @@ public class ChessGame {
         return command;
     }
 
-    private Command requestCommandOnProgress() {
+    private Command requestPlayCommand() {
         Command command = requestCommand();
         if (command.isType(CommandType.START)) {
             throw new IllegalArgumentException("이미 게임이 시작되었습니다.");
         }
         return command;
+    }
+
+    private Command requestCommand() {
+        return requestUntilValid(() -> Command.from(inputView.readCommand()));
     }
 
     private void tryMove(final Command command, final Board board) {
