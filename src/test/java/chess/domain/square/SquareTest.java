@@ -18,12 +18,12 @@ class SquareTest {
     void convertUserInputToFileAndRankTest() {
         // given
         Square square = Square.from("b3");
-        int expectedFileOrdinal = 1;
-        int expectedRankOrdinal = 5;
+        int expectedFileIndex = 1;
+        int expectedRankIndex = 5;
 
         assertSoftly(softAssertions -> {
-            softAssertions.assertThat(square.getFileOrdinal()).isEqualTo(expectedFileOrdinal);
-            softAssertions.assertThat(square.getRankOrdinal()).isEqualTo(expectedRankOrdinal);
+            softAssertions.assertThat(square.getFileIndex()).isEqualTo(expectedFileIndex);
+            softAssertions.assertThat(square.getRankIndex()).isEqualTo(expectedRankIndex);
         });
     }
 
@@ -182,23 +182,23 @@ class SquareTest {
 
     @Test
     @DisplayName("파일 값을 정수로 반환한다.")
-    void getFileOrdinal() {
+    void getFileIndex() {
         // given
         Square square = Square.from("b3");
-        int expectedFileOrdinal = 1;
+        int expectedFileIndex = 1;
 
         // when & then
-        assertThat(square.getFileOrdinal()).isEqualTo(expectedFileOrdinal);
+        assertThat(square.getFileIndex()).isEqualTo(expectedFileIndex);
     }
 
     @Test
     @DisplayName("랭크 값을 정수로 반환한다.")
-    void getRankOrdinal() {
+    void getRankIndex() {
         // given
         Square square = Square.from("b3");
-        int expectedRankOrdinal = 5;
+        int expectedRankIndex = 5;
 
         // when & then
-        assertThat(square.getRankOrdinal()).isEqualTo(expectedRankOrdinal);
+        assertThat(square.getRankIndex()).isEqualTo(expectedRankIndex);
     }
 }

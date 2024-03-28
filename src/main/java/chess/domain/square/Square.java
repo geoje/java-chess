@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Square {
-    
+
     private static final String FILE_AND_RANK_PATTERN = "^[a-z][0-9]$";
     private static final Map<String, Square> CACHE = new HashMap<>();
 
@@ -95,12 +95,12 @@ public class Square {
         return rank.compareTo(other.rank) > 0;
     }
 
-    public int getFileOrdinal() {
-        return file.ordinal();
+    public int getFileIndex() {
+        return file.getIndex();
     }
 
-    public int getRankOrdinal() {
-        return rank.ordinal();
+    public int getRankIndex() {
+        return rank.getIndex();
     }
 
     @Override

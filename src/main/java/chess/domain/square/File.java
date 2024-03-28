@@ -2,16 +2,22 @@ package chess.domain.square;
 
 public enum File {
 
-    A,
-    B,
-    C,
-    D,
-    E,
-    F,
-    G,
-    H;
+    A(0),
+    B(1),
+    C(2),
+    D(3),
+    E(4),
+    F(5),
+    G(6),
+    H(7);
 
     private static final char FIRST_INPUT = 'a';
+
+    private final int index;
+
+    File(int index) {
+        this.index = index;
+    }
 
     public static File from(final char input) {
         int index = input - FIRST_INPUT;
@@ -26,7 +32,7 @@ public enum File {
     }
 
     public File add(final int value) {
-        int sum = ordinal() + value;
+        int sum = index + value;
         validateRange(sum);
         return values()[sum];
     }
@@ -37,5 +43,9 @@ public enum File {
 
     public int distanceFrom(final File other) {
         return Math.abs(compareTo(other));
+    }
+
+    public int getIndex() {
+        return index;
     }
 }

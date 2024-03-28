@@ -39,7 +39,7 @@ public class OutputView {
     private void setPiecesOnBoard(final char[][] board, final List<PieceDrawing> pieceDrawings) {
         for (PieceDrawing pieceDrawing : pieceDrawings) {
             char pieceSymbol = PieceMapper.map(pieceDrawing.typeName(), pieceDrawing.colorName());
-            board[pieceDrawing.rankOrdinal()][pieceDrawing.fileOrdinal()] = pieceSymbol;
+            board[pieceDrawing.rankIndex()][pieceDrawing.fileIndex()] = pieceSymbol;
         }
     }
 

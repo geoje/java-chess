@@ -1,16 +1,22 @@
 package chess.domain.square;
 
 public enum Rank {
-    EIGHT,
-    SEVEN,
-    SIX,
-    FIVE,
-    FOUR,
-    THREE,
-    TWO,
-    ONE;
+    EIGHT(0),
+    SEVEN(1),
+    SIX(2),
+    FIVE(3),
+    FOUR(4),
+    THREE(5),
+    TWO(6),
+    ONE(7);
 
     private static final char FIRST_INPUT = '8';
+
+    private final int index;
+
+    Rank(int index) {
+        this.index = index;
+    }
 
     public static Rank from(final char input) {
         int index = FIRST_INPUT - input;
@@ -25,7 +31,7 @@ public enum Rank {
     }
 
     public Rank add(final int value) {
-        int sum = ordinal() + value;
+        int sum = index + value;
         validateRange(sum);
         return values()[sum];
     }
@@ -39,6 +45,10 @@ public enum Rank {
     }
 
     public char toInput() {
-        return (char) (FIRST_INPUT - ordinal());
+        return (char) (FIRST_INPUT - index);
+    }
+
+    public int getIndex() {
+        return index;
     }
 }
