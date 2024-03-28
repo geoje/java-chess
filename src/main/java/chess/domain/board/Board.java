@@ -65,7 +65,7 @@ public class Board {
                 && piece.getColor() != sourcePiece.getColor());
     }
 
-    public int getPawnCountOnSameFile(Square square, PieceColor color) {
+    public int getPawnCountOnSameFile(final Square square, final PieceColor color) {
         return (int) pieces.stream()
                 .filter(piece -> square.isSameFile(piece.getSquare()))
                 .filter(piece -> color == piece.getColor())
@@ -80,24 +80,41 @@ public class Board {
     }
 
     public GameStatus getGameStatus() {
+        Map<String, Double> scoresByColor = calculateScores();
+        List<String> winners = calculateWinners(scoresByColor);
+        if (winners.size() == 1) {
+            return new GameStatus(scoresByColor, winners.get(0));
+        }
+        return new GameStatus(scoresByColor, "");
+    }
+
+    private Map<String, Double> calculateScores() {
         Map<String, Double> scoresByColor = new HashMap<>();
         for (PieceColor color : PieceColor.values()) {
             scoresByColor.put(color.name(), calculateTotalScore(color));
         }
-        return new GameStatus(scoresByColor, calculateWinner(scoresByColor));
+        return scoresByColor;
     }
 
-    private double calculateTotalScore(PieceColor color) {
+    private double calculateTotalScore(final PieceColor color) {
         return pieces.stream()
                 .filter(piece -> color == piece.getColor())
                 .mapToDouble(piece -> piece.getScore(this))
                 .sum();
     }
 
-    private <T> T calculateWinner(Map<T, Double> scores) {
+    private <T> List<T> calculateWinners(final Map<T, Double> scores) {
+        double maxScore = calculateMaxScore(scores);
         return scores.entrySet().stream()
-                .max((o1, o2) -> (int) ((o1.getValue() - o2.getValue()) * 10))
-                .orElseThrow(() -> new IllegalArgumentException("승자가 존재하지 않습니다."))
-                .getKey();
+                .filter(entry -> entry.getValue() == maxScore)
+                .map(Map.Entry::getKey)
+                .toList();
+    }
+
+    private <T> double calculateMaxScore(final Map<T, Double> scores) {
+        return scores.values().stream()
+                .mapToDouble(v -> v)
+                .max()
+                .orElse(0);
     }
 }

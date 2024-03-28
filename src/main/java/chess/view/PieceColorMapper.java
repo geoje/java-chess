@@ -4,6 +4,8 @@ public enum PieceColorMapper {
     WHITE("흰색"),
     BLACK("검은색");
 
+    public static final String NONE = "없음";
+
     private final String name;
 
     PieceColorMapper(String name) {
@@ -12,7 +14,7 @@ public enum PieceColorMapper {
 
     public static String map(String colorName) {
         if (colorName.isBlank()) {
-            return "";
+            return NONE;
         }
         return valueOf(colorName).name;
     }
