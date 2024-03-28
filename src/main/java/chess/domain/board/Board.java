@@ -11,10 +11,6 @@ import java.util.Set;
 
 public class Board {
 
-    private static final String ERROR_NOT_TURN = "선택한 기물의 팀의 차례가 아닙니다.";
-    private static final String ERROR_CANNOT_STAY = "제자리로 이동할 수 없습니다.";
-    private static final String ERROR_NOT_EXIST_PIECE = "해당 위치에 기물이 존재하지 않습니다.";
-
     private final Set<Piece> pieces;
 
     public Board(final Set<Piece> pieces) {
@@ -31,13 +27,13 @@ public class Board {
 
     private void validateTurn(final Piece sourcePiece, final PieceColor turn) {
         if (sourcePiece.getColor() != turn) {
-            throw new IllegalArgumentException(ERROR_NOT_TURN);
+            throw new IllegalArgumentException("선택한 기물의 팀의 차례가 아닙니다.");
         }
     }
 
     private void validateStay(final Square source, final Square target) {
         if (source.equals(target)) {
-            throw new IllegalArgumentException(ERROR_CANNOT_STAY);
+            throw new IllegalArgumentException("제자리로 이동할 수 없습니다.");
         }
     }
 
@@ -55,7 +51,7 @@ public class Board {
         return pieces.stream()
                 .filter(piece -> piece.isLocated(square))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException(ERROR_NOT_EXIST_PIECE));
+                .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다."));
     }
 
     private void removeTargetPieceIfAttacked(final Piece sourcePiece, final Square targetSquare) {

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Square {
-    private static final String ERROR_INVALID_PATTERN = "문자 1개 숫자 1개를 붙인 위치형식으로 입력해 주세요.";
+    
     private static final String FILE_AND_RANK_PATTERN = "^[a-z][0-9]$";
     private static final Map<String, Square> CACHE = new HashMap<>();
 
@@ -34,7 +34,7 @@ public class Square {
 
     private static void validatePattern(final String square) {
         if (!square.matches(FILE_AND_RANK_PATTERN)) {
-            throw new IllegalArgumentException(ERROR_INVALID_PATTERN);
+            throw new IllegalArgumentException("문자 1개 숫자 1개를 붙인 위치형식으로 입력해 주세요.");
         }
     }
 

@@ -11,7 +11,6 @@ public enum Rank {
     ONE;
 
     private static final char FIRST_INPUT = '8';
-    private static final String ERROR_OUT_OF_RANGE = "범위 밖의 랭크 입니다.";
 
     public static Rank from(final char input) {
         int index = FIRST_INPUT - input;
@@ -21,7 +20,7 @@ public enum Rank {
 
     private static void validateRange(final int value) {
         if (value < 0 || value >= values().length) {
-            throw new IllegalArgumentException(ERROR_OUT_OF_RANGE);
+            throw new IllegalArgumentException("범위 밖의 랭크 입니다.");
         }
     }
 

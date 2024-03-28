@@ -13,8 +13,7 @@ public class Pawn extends Piece {
     private static final int STEP_LIMIT = 1;
     private static final Rank FIRST_RANK_BLACK = Rank.SEVEN;
     private static final Rank FIRST_RANK_WHITE = Rank.TWO;
-    private static final String ERROR_CANNOT_REACH = "폰의 이동 방법으로 갈 수 없는 곳입니다.";
-    private static final String ERROR_OBSTACLE_ON_PATH = "폰의 이동 경로 중 장애물이 존재합니다.";
+    private static final String MESSAGE_CANNOT_REACH = "폰의 이동 방법으로 갈 수 없는 곳입니다.";
 
     public Pawn(final PieceColor color, final Square square) {
         super(color, square);
@@ -33,7 +32,7 @@ public class Pawn extends Piece {
 
     private void validateAttackStepLimit(final Square target) {
         if (square.calculateRankDistance(target) > STEP_LIMIT) {
-            throw new IllegalArgumentException(ERROR_CANNOT_REACH);
+            throw new IllegalArgumentException(MESSAGE_CANNOT_REACH);
         }
     }
 
@@ -45,14 +44,14 @@ public class Pawn extends Piece {
 
     private void validateMoveDirection(final Square target) {
         if (!isForward(target) || !square.isSameFile(target)) {
-            throw new IllegalArgumentException(ERROR_CANNOT_REACH);
+            throw new IllegalArgumentException(MESSAGE_CANNOT_REACH);
         }
     }
 
     private void validateMoveStepLimit(final Square target) {
         if ((!isFirstStep() && square.calculateRankDistance(target) > STEP_LIMIT) ||
                 square.calculateRankDistance(target) > FIRST_STEP_LIMIT) {
-            throw new IllegalArgumentException(ERROR_CANNOT_REACH);
+            throw new IllegalArgumentException(MESSAGE_CANNOT_REACH);
         }
     }
 
@@ -60,7 +59,7 @@ public class Pawn extends Piece {
         List<Square> path = new ArrayList<>(square.generatePath(target));
         path.add(target);
         if (path.stream().anyMatch(board::existOnSquare)) {
-            throw new IllegalArgumentException(ERROR_OBSTACLE_ON_PATH);
+            throw new IllegalArgumentException("폰의 이동 경로 중 장애물이 존재합니다.");
         }
     }
 

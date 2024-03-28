@@ -6,8 +6,6 @@ import chess.domain.square.Square;
 public class King extends Piece {
 
     private static final int STEP_LIMIT = 1;
-    private static final String ERROR_CANNOT_REACH = "킹의 이동 방법으로 갈 수 없는 곳입니다.";
-    private static final String ERROR_FRIENDLY_ON_TARGET = "킹의 목적지에 같은 색 기물이 존재합니다.";
 
     public King(final PieceColor color, final Square square) {
         super(color, square);
@@ -22,13 +20,13 @@ public class King extends Piece {
 
     private void validateStepCount(final Square target) {
         if (!isStepUnderLimit(target)) {
-            throw new IllegalArgumentException(ERROR_CANNOT_REACH);
+            throw new IllegalArgumentException("킹의 이동 방법으로 갈 수 없는 곳입니다.");
         }
     }
 
     private void validateFriendly(final Board board, final Square target) {
         if (board.existOnSquareWithColor(target, getColor())) {
-            throw new IllegalArgumentException(ERROR_FRIENDLY_ON_TARGET);
+            throw new IllegalArgumentException("킹의 목적지에 같은 색 기물이 존재합니다.");
         }
     }
 

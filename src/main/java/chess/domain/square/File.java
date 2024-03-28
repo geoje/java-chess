@@ -12,7 +12,6 @@ public enum File {
     H;
 
     private static final char FIRST_INPUT = 'a';
-    private static final String ERROR_OUT_OF_RANGE = "범위 밖의 파일 입니다.";
 
     public static File from(final char input) {
         int index = input - FIRST_INPUT;
@@ -22,7 +21,7 @@ public enum File {
 
     private static void validateRange(final int value) {
         if (value < 0 || value >= values().length) {
-            throw new IllegalArgumentException(ERROR_OUT_OF_RANGE);
+            throw new IllegalArgumentException("범위 밖의 파일 입니다.");
         }
     }
 

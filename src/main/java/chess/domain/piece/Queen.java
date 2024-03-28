@@ -7,10 +7,6 @@ import java.util.List;
 
 public class Queen extends Piece {
 
-    private static final String ERROR_CANNOT_REACT = "퀸의 이동 방법으로 갈 수 없는 곳입니다.";
-    private static final String ERROR_FRIENDLY_ON_TARGET = "퀸의 목적지에 같은 색 기물이 존재합니다.";
-    private static final String ERROR_OBSTACLE_ON_PATH = "퀸의 이동 경로 중 장애물이 존재합니다.";
-
     public Queen(final PieceColor color, final Square square) {
         super(color, square);
     }
@@ -25,20 +21,20 @@ public class Queen extends Piece {
 
     private void validateDirection(final Square target) {
         if (!isSameFileOrRankOrDiagonal(target)) {
-            throw new IllegalArgumentException(ERROR_CANNOT_REACT);
+            throw new IllegalArgumentException("퀸의 이동 방법으로 갈 수 없는 곳입니다.");
         }
     }
 
     private void validateFriendly(final Board board, final Square target) {
         if (board.existOnSquareWithColor(target, getColor())) {
-            throw new IllegalArgumentException(ERROR_FRIENDLY_ON_TARGET);
+            throw new IllegalArgumentException("퀸의 목적지에 같은 색 기물이 존재합니다.");
         }
     }
 
     private void validateObstacle(final Board board, final Square target) {
         List<Square> path = square.generatePath(target);
         if (path.stream().anyMatch(board::existOnSquare)) {
-            throw new IllegalArgumentException(ERROR_OBSTACLE_ON_PATH);
+            throw new IllegalArgumentException("퀸의 이동 경로 중 장애물이 존재합니다.");
         }
     }
 
