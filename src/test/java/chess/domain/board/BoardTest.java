@@ -183,7 +183,7 @@ class BoardTest {
         );
 
         // when
-        List<PieceDrawing> pieceDrawings = board.getStatus();
+        List<PieceDrawing> pieceDrawings = board.getPiecesStatus();
 
         // then
         assertThat(pieceDrawings).containsExactlyInAnyOrderElementsOf(expected);

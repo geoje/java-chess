@@ -61,7 +61,7 @@ public class Board {
                 && piece.getColor() != sourcePiece.getColor());
     }
 
-    public List<PieceDrawing> getStatus() {
+    public List<PieceDrawing> getPiecesStatus() {
         return pieces.stream()
                 .map(PieceDrawing::from)
                 .toList();

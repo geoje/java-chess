@@ -21,7 +21,7 @@ public class ChessGame {
         Command command = requestInitCommandUntilValid();
         Board board = BoardFactory.createBoard();
         if (command.isType(CommandType.START)) {
-            outputView.printBoard(board.getStatus());
+            outputView.printBoard(board.getPiecesStatus());
         }
         while (!command.isType(CommandType.END)) {
             command = requestUntilValid(this::requestPlayCommand);
@@ -62,7 +62,7 @@ public class ChessGame {
             Square source = Square.from(command.getArgument(1));
             Square target = Square.from(command.getArgument(2));
             board.move(source, target);
-            outputView.printBoard(board.getStatus());
+            outputView.printBoard(board.getPiecesStatus());
         } catch (IllegalArgumentException e) {
             outputView.printErrorMessage(e.getMessage());
         }
