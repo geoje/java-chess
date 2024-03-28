@@ -20,12 +20,12 @@ class PieceColorMapperTest {
     }
 
     @Test
-    @DisplayName("빈 색상일 경우 빈 문자열을 반환한다.")
+    @DisplayName("빈 색상일 경우 없음을 반환한다.")
     void mapToEmpty() {
         // given
         String mapped = PieceColorMapper.map("");
 
         // when & then
-        assertThat(mapped).isEmpty();
+        assertThat(mapped).isEqualTo("없음");
     }
 }
