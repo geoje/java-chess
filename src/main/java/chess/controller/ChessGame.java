@@ -25,19 +25,19 @@ public class ChessGame {
         while (!state.isEnd()) {
             GameState currentState = state;
             Command command = requestUntilValid(() -> Command.from(inputView.readCommand()));
-
-            try {
-                state = currentState.play(command);
-                if (command.isType(CommandType.STATUS)) {
-                    outputView.printScores(board.getGameStatus());
-                }
-                if (command.anyMatchType(CommandType.START, CommandType.MOVE)) {
-                    outputView.printBoard(board.getPiecesStatus());
-                }
-            } catch (IllegalArgumentException | UnsupportedOperationException e) {
-                outputView.printErrorMessage(e.getMessage());
-            }
+            state = tryGet(() -> playAndPrint(currentState, command, board)).orElse(state);
         }
+    }
+
+    private GameState playAndPrint(GameState state, Command command, Board board) {
+        final GameState newState = state.play(command);
+        if (command.isType(CommandType.STATUS)) {
+            outputView.printScores(board.getGameStatus());
+        }
+        if (command.anyMatchType(CommandType.START, CommandType.MOVE)) {
+            outputView.printBoard(board.getPiecesStatus());
+        }
+        return newState;
     }
 
     private <T> T requestUntilValid(final Supplier<T> supplier) {
