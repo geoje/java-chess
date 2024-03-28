@@ -1,4 +1,4 @@
-package chess.view;
+package chess.domain.game.command;
 
 import java.util.Arrays;
 
@@ -6,6 +6,7 @@ public enum CommandType {
 
     START("start", 0),
     MOVE("move", 2),
+    STATUS("status", 0),
     END("end", 0);
 
     private final String value;

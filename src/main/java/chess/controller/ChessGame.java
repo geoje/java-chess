@@ -2,9 +2,10 @@ package chess.controller;
 
 import chess.domain.board.Board;
 import chess.domain.board.BoardFactory;
-import chess.domain.square.Square;
-import chess.view.Command;
-import chess.view.CommandType;
+import chess.domain.game.command.Command;
+import chess.domain.game.command.CommandType;
+import chess.domain.game.state.GameState;
+import chess.domain.game.state.Ready;
 import chess.view.InputView;
 import chess.view.OutputView;
 
@@ -18,53 +19,20 @@ public class ChessGame {
 
     public void run() {
         outputView.printStartMessage();
-        Command command = requestInitCommandUntilValid();
         Board board = BoardFactory.createBoard();
-        if (command.isType(CommandType.START)) {
-            outputView.printBoard(board.getPiecesStatus());
-        }
-        while (!command.isType(CommandType.END)) {
-            command = requestUntilValid(this::requestPlayCommand);
-            tryMove(command, board);
-        }
-    }
 
-    private Command requestInitCommandUntilValid() {
-        Command command;
-        do {
-            command = requestUntilValid(this::requestInitCommand);
-        } while (!command.anyMatchType(CommandType.START, CommandType.END));
-        return command;
-    }
+        GameState state = new Ready(board);
+        while (!state.isEnd()) {
+            GameState currentState = state;
+            Command command = requestUntilValid(() -> Command.from(inputView.readCommand()));
 
-    private Command requestInitCommand() {
-        Command command = requestCommand();
-        if (command.isType(CommandType.MOVE)) {
-            throw new IllegalArgumentException("아직 게임이 시작되지 않았습니다.");
-        }
-        return command;
-    }
-
-    private Command requestPlayCommand() {
-        Command command = requestCommand();
-        if (command.isType(CommandType.START)) {
-            throw new IllegalArgumentException("이미 게임이 시작되었습니다.");
-        }
-        return command;
-    }
-
-    private Command requestCommand() {
-        return requestUntilValid(() -> Command.from(inputView.readCommand()));
-    }
-
-    private void tryMove(final Command command, final Board board) {
-        try {
-            Square source = Square.from(command.getArgument(1));
-            Square target = Square.from(command.getArgument(2));
-            board.move(source, target);
-            outputView.printBoard(board.getPiecesStatus());
-        } catch (IllegalArgumentException e) {
-            outputView.printErrorMessage(e.getMessage());
+            state = requestUntilValid(() -> currentState.play(command));
+            if (command.isType(CommandType.STATUS)) {
+                outputView.printScores(board.getGameStatus());
+            }
+            if (command.isType(CommandType.MOVE)) {
+                outputView.printBoard(board.getPiecesStatus());
+            }
         }
     }
 
@@ -79,7 +47,7 @@ public class ChessGame {
     private <T> Optional<T> tryGet(final Supplier<T> supplier) {
         try {
             return Optional.of(supplier.get());
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | UnsupportedOperationException e) {
             outputView.printErrorMessage(e.getMessage());
             return Optional.empty();
         }

@@ -1,5 +1,6 @@
 package chess.view;
 
+import chess.domain.game.command.CommandType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
