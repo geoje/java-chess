@@ -48,7 +48,7 @@ public class OutputView {
 
     public void printScores(GameStatus gameStatus) {
         gameStatus.scoresByColor().forEach(this::printScore);
-        System.out.println(TITLE_WINNER + gameStatus.winner());
+        System.out.println(TITLE_WINNER + PieceColorMapper.map(gameStatus.winner()));
         System.out.println();
     }
 

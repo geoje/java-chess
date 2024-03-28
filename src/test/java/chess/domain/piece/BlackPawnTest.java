@@ -183,7 +183,7 @@ class BlackPawnTest {
     }
 
     @Test
-    @DisplayName("같은 파일에 검은색 폰이 하나만 있을 경우의 점수를 계산한다.")
+    @DisplayName("같은 파일에 검은색 폰이 하나만 있을 경우의 점수를 계산 한다.")
     void getNormalScoreTest() {
         // given
         Square source = Square.from("c6");
@@ -198,7 +198,7 @@ class BlackPawnTest {
     }
 
     @Test
-    @DisplayName("같은 파일에 검은색 폰이 두개 이상 있을 경우의 점수를 계산한다.")
+    @DisplayName("같은 파일에 검은색 폰이 두개 이상 있을 경우의 점수를 계산 한다.")
     void getSpecialScoreTest() {
         // given
         Square source1 = Square.from("c6");
@@ -207,10 +207,8 @@ class BlackPawnTest {
         Pawn pawn2 = new Pawn(PIECE_COLOR, source2);
         Board board = new Board(Set.of(pawn1, pawn2));
 
-        // when
-        double score = pawn1.getScore(board);
-
-        // then
-        assertThat(score).isEqualTo(0.5);
+        // when & then
+        assertThat(pawn1.getScore(board)).isEqualTo(0.5);
+        assertThat(pawn2.getScore(board)).isEqualTo(0.5);
     }
 }

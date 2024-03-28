@@ -11,6 +11,9 @@ public enum PieceColorMapper {
     }
 
     public static String map(String colorName) {
+        if (colorName.isBlank()) {
+            return "";
+        }
         return valueOf(colorName).name;
     }
 }

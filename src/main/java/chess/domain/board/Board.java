@@ -1,5 +1,6 @@
 package chess.domain.board;
 
+import chess.domain.piece.Pawn;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
 import chess.domain.square.Square;
@@ -68,6 +69,7 @@ public class Board {
         return (int) pieces.stream()
                 .filter(piece -> square.isSameFile(piece.getSquare()))
                 .filter(piece -> color == piece.getColor())
+                .filter(piece -> piece instanceof Pawn)
                 .count();
     }
 
@@ -87,7 +89,7 @@ public class Board {
 
     private double calculateTotalScore(PieceColor color) {
         return pieces.stream()
-                .filter(piece -> color.equals(piece.getColor()))
+                .filter(piece -> color == piece.getColor())
                 .mapToDouble(piece -> piece.getScore(this))
                 .sum();
     }

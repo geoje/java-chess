@@ -26,12 +26,16 @@ public class ChessGame {
             GameState currentState = state;
             Command command = requestUntilValid(() -> Command.from(inputView.readCommand()));
 
-            state = requestUntilValid(() -> currentState.play(command));
-            if (command.isType(CommandType.STATUS)) {
-                outputView.printScores(board.getGameStatus());
-            }
-            if (command.isType(CommandType.MOVE)) {
-                outputView.printBoard(board.getPiecesStatus());
+            try {
+                state = currentState.play(command);
+                if (command.isType(CommandType.STATUS)) {
+                    outputView.printScores(board.getGameStatus());
+                }
+                if (command.anyMatchType(CommandType.START, CommandType.MOVE)) {
+                    outputView.printBoard(board.getPiecesStatus());
+                }
+            } catch (IllegalArgumentException | UnsupportedOperationException e) {
+                outputView.printErrorMessage(e.getMessage());
             }
         }
     }

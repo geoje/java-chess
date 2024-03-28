@@ -193,8 +193,8 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("특정한 파일에 폰의 개수를 계산한다.")
-    void getPawnCountOnSameFile() {
+    @DisplayName("특정한 파일에 검은색 폰이 2개 존재 한다.")
+    void getBlackPawnCountOnSameFile() {
         // given
         Pawn blackPawn = new Pawn(PieceColor.BLACK, Square.from("b2"));
         Board board = new Board(Set.of(
@@ -212,7 +212,26 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("현재 게임의 점수와 승자 상태를 계산한다.")
+    @DisplayName("특정한 파일에 흰색 폰이 1개 존재 한다.")
+    void getWhitePawnCountOnSameFile() {
+        // given
+        Pawn whitePawn = new Pawn(PieceColor.WHITE, Square.from("e3"));
+        Board board = new Board(Set.of(
+                new Pawn(PieceColor.BLACK, Square.from("b2")),
+                new Pawn(PieceColor.BLACK, Square.from("b4")),
+                new Pawn(PieceColor.WHITE, Square.from("d3")),
+                whitePawn
+        ));
+
+        // when
+        int pawnCount = board.getPawnCountOnSameFile(whitePawn.getSquare(), whitePawn.getColor());
+
+        // then
+        assertThat(pawnCount).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("현재 게임의 점수와 승자 상태를 계산 한다.")
     void getGameStatusTest() {
         // given
         Board board = new Board(Set.of(
@@ -222,9 +241,9 @@ class BoardTest {
                 new Pawn(PieceColor.BLACK, Square.from("b4")),
                 new Queen(PieceColor.WHITE, Square.from("f1")),
                 new Pawn(PieceColor.WHITE, Square.from("e3")),
-                new Pawn(PieceColor.WHITE, Square.from("e5"))
+                new Pawn(PieceColor.WHITE, Square.from("f5"))
         ));
-        Map<String, Double> scoresByColor = Map.of("BLACK", 17.0, "WHITE", 10.0);
+        Map<String, Double> scoresByColor = Map.of("BLACK", 17.0, "WHITE", 11.0);
 
         // when
         GameStatus gameStatus = board.getGameStatus();
