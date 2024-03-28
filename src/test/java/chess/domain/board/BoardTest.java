@@ -231,8 +231,22 @@ class BoardTest {
     }
 
     @Test
+    @DisplayName("초기 진영은 점수가 같아 승자가 존재 하지 않는다.")
+    void getGameStatusSameTest() {
+        // given
+        Board board = BoardFactory.createBoard();
+        Map<String, Double> scoresByColor = Map.of("BLACK", 42.0, "WHITE", 42.0);
+
+        // when
+        GameStatus gameStatus = board.getGameStatus();
+
+        // then
+        assertThat(gameStatus).isEqualTo(new GameStatus(scoresByColor, ""));
+    }
+
+    @Test
     @DisplayName("현재 게임의 점수와 승자 상태를 계산 한다.")
-    void getGameStatusTest() {
+    void getGameStatusDiffTest() {
         // given
         Board board = new Board(Set.of(
                 new Queen(PieceColor.BLACK, Square.from("a1")),

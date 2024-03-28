@@ -1,5 +1,6 @@
 package chess.domain.board;
 
+import chess.domain.piece.King;
 import chess.domain.piece.Pawn;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
@@ -14,6 +15,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class Board {
+
+    private static final int SINGLE_KING_COUNT = 1;
 
     private final Set<Piece> pieces;
     private PieceColor turn = PieceColor.WHITE;
@@ -71,6 +74,12 @@ public class Board {
                 .filter(piece -> color == piece.getColor())
                 .filter(piece -> piece instanceof Pawn)
                 .count();
+    }
+
+    public boolean isKingCaptured() {
+        return pieces.stream()
+                .filter(piece -> piece instanceof King)
+                .count() <= SINGLE_KING_COUNT;
     }
 
     public List<PieceDrawing> getPiecesStatus() {
