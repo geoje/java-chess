@@ -70,4 +70,14 @@ class FileTest {
         // when & then
         assertThat(vectorTo).isEqualTo(2);
     }
+
+    @Test
+    @DisplayName("문자로 다시 변경한다.")
+    void toInputTest() {
+        // given
+        File file = File.from('c');
+
+        // when & then
+        assertThat(file.toInput()).isEqualTo('c');
+    }
 }

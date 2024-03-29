@@ -5,7 +5,6 @@ import chess.domain.square.Move;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,7 @@ public class MoveDao implements MoveRepository {
     @Override
     public List<Move> findAll() {
         final var query = "SELECT * FROM move";
-        try (final Statement statement = JdbcConnection.getConnection().createStatement()) {
+        try (final var statement = JdbcConnection.getConnection().createStatement()) {
             ResultSet resultSet = statement.executeQuery(query);
             List<Move> list = new ArrayList<>();
             while (resultSet.next()) {
@@ -21,16 +20,22 @@ public class MoveDao implements MoveRepository {
                         resultSet.getString("source"),
                         resultSet.getString("target")
                 ));
-                return list;
             }
+            return list;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
     }
 
     @Override
-    public void save() {
-
+    public void save(final Move move) {
+        final var query = "INSERT INTO move (source, target) VALUES (?, ?)";
+        try (final var statement = JdbcConnection.getConnection().prepareStatement(query)) {
+            statement.setString(1, move.source().toInput());
+            statement.setString(2, move.target().toInput());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

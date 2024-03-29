@@ -6,5 +6,5 @@ CREATE TABLE IF NOT EXISTS move
 (
     source     CHAR(2) NOT NULL,
     target     CHAR(2) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP(3) DEFAULT NOW(3)
 );

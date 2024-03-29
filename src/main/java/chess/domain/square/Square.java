@@ -39,7 +39,7 @@ public class Square {
     }
 
     private static String generateSquareKey(final File file, final Rank rank) {
-        return file.name().toLowerCase() + rank.toInput();
+        return String.valueOf(file.toInput()) + rank.toInput();
     }
 
     public List<Square> generatePath(final Square target) {
@@ -101,6 +101,10 @@ public class Square {
 
     public int getRankIndex() {
         return rank.getIndex();
+    }
+
+    public String toInput() {
+        return generateSquareKey(file, rank);
     }
 
     @Override

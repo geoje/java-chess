@@ -30,6 +30,9 @@ public class DatabaseInitializer {
             throw new RuntimeException("체스 DDL 파일이 존재하지 않습니다.");
         }
         String queries = Files.readString(Paths.get(resource.toURI()));
-        return Arrays.stream(queries.split(";")).map(String::strip).toList();
+        return Arrays.stream(queries.split(";"))
+                .map(String::strip)
+                .filter(query -> !query.isEmpty())
+                .toList();
     }
 }

@@ -7,5 +7,5 @@ import java.util.List;
 public interface MoveRepository {
     List<Move> findAll();
 
-    void save();
+    void save(Move move);
 }

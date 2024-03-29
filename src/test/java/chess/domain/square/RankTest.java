@@ -70,4 +70,14 @@ class RankTest {
         // when & then
         assertThat(vectorTo).isEqualTo(2);
     }
+
+    @Test
+    @DisplayName("문자로 다시 변경한다.")
+    void toInputTest() {
+        // given
+        Rank rank = Rank.from('5');
+
+        // when & then
+        assertThat(rank.toInput()).isEqualTo('5');
+    }
 }

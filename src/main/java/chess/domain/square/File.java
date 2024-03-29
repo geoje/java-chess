@@ -45,6 +45,10 @@ public enum File {
         return Math.abs(compareTo(other));
     }
 
+    public char toInput() {
+        return (char) (FIRST_INPUT + index);
+    }
+
     public int getIndex() {
         return index;
     }
