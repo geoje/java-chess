@@ -10,6 +10,7 @@ import chess.domain.game.state.GameState;
 import chess.domain.game.state.Ready;
 import chess.domain.piece.PieceColor;
 import chess.domain.square.Move;
+import chess.dto.UserStatus;
 import chess.repository.MoveDao;
 import chess.repository.MoveRepository;
 import chess.repository.RoomDao;
@@ -92,7 +93,14 @@ public class ChessGame {
     }
 
     private void printUser(Command command) {
-        System.out.println("유저 출력\n");
+        String username = command.getArgument(1);
+        List<Room> rooms = roomRepository.findAllByUserWhite(username);
+        if (rooms.isEmpty()) {
+            throw new IllegalArgumentException("존재하지 않는 유저 입니다");
+        }
+        rooms.addAll(roomRepository.findAllByUserBlack(username));
+        UserStatus userStatus = UserStatus.from(rooms, username);
+        outputView.printUser(userStatus.win(), userStatus.lose(), userStatus.inProgress());
     }
 
     private void moveAndPrint(Command command) {

@@ -24,7 +24,7 @@ public class OutputView {
             +-------------------------------------------------------+
                         
             """;
-    private static final String ROOM_STATUS_FORMAT = "방 번호: %d / 흰색 유저: %s / 검은색 유저: %s%n";
+    private static final String ROOM_STATUS_FORMAT = "방 번호: %d / 흰색: %s / 검은색: %s%n";
     private static final String WHITE_SCORE_FORMAT = "흰색: %.1f%n";
     private static final String BLACK_SCORE_FORMAT = "검은색: %.1f%n";
     private static final String WINNER_FORMAT = "승자: %s%n";
@@ -49,6 +49,11 @@ public class OutputView {
                 room.id().value(),
                 room.userWhite().name(),
                 room.userBlack().name());
+    }
+
+    public void printUser(int win, int lose, List<Room> rooms) {
+        System.out.printf("승리: %d / 패배: %d%n[진행 중인 방]%n", win, lose);
+        printRooms(rooms);
     }
 
     public void printBoard(final List<PieceDrawing> pieceDrawings) {
