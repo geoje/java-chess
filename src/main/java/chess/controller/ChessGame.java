@@ -11,19 +11,24 @@ import chess.repository.MoveDao;
 import chess.view.InputView;
 import chess.view.OutputView;
 
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 public class ChessGame {
 
-    private final InputView inputView;
-    private final OutputView outputView;
-    private final MoveDao moveDao;
+    private final InputView inputView = new InputView();
+    private final OutputView outputView = new OutputView();
+    private final MoveDao moveDao = new MoveDao();
+    private final Map<CommandType, BiConsumer<Command, Board>> invokers;
 
     public ChessGame() {
-        this.inputView = new InputView();
-        this.outputView = new OutputView();
-        this.moveDao = new MoveDao();
+        invokers = Map.of(
+                CommandType.START, this::printBoard,
+                CommandType.MOVE, this::printBoard,
+                CommandType.STATUS, this::printScores
+        );
     }
 
     public void run() {
@@ -54,13 +59,18 @@ public class ChessGame {
 
     private GameState playAndPrint(GameState state, Command command, Board board) {
         final GameState newState = state.play(command);
-        if (command.isType(CommandType.STATUS)) {
-            outputView.printScores(board.getGameStatus());
-        }
-        if (command.anyMatchType(CommandType.START, CommandType.MOVE)) {
-            outputView.printBoard(board.getPiecesStatus());
+        if (invokers.containsKey(command.type())) {
+            invokers.get(command.type()).accept(command, board);
         }
         return newState;
+    }
+
+    private void printScores(Command command, Board board) {
+        outputView.printScores(board.getGameStatus());
+    }
+
+    private void printBoard(Command command, Board board) {
+        outputView.printBoard(board.getPiecesStatus());
     }
 
     private <T> T requestUntilValid(final Supplier<T> supplier) {
