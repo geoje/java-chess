@@ -18,11 +18,12 @@ class ReadyTest {
     @DisplayName("시작 명령일 경우 진행 상태가 된다.")
     void playWithStartCommandTest() {
         // given
-        GameState state = new Ready(new Board(Set.of()));
-        Command command = Command.from(List.of("start"));
+        final Board board = new Board(Set.of());
+        GameState state = new Ready();
+        Command command = Command.from(List.of("start", "a", "b"));
 
         // when
-        GameState newState = state.play(command);
+        GameState newState = state.play(command, board);
 
         // then
         assertThat(newState instanceof Progress).isTrue();
@@ -32,11 +33,12 @@ class ReadyTest {
     @DisplayName("종료 명령일 경우 종료 상태가 된다.")
     void playWithEndCommandTest() {
         // given
-        GameState state = new Ready(new Board(Set.of()));
+        final Board board = new Board(Set.of());
+        GameState state = new Ready();
         Command command = Command.from(List.of("end"));
 
         // when
-        GameState newState = state.play(command);
+        GameState newState = state.play(command, board);
 
         // then
         assertThat(newState instanceof End).isTrue();
@@ -46,11 +48,12 @@ class ReadyTest {
     @DisplayName("움직임 명령일 경우 예외가 발생한다.")
     void exceptionOnMoveCommandTest() {
         // given
-        GameState state = new Ready(new Board(Set.of()));
+        final Board board = new Board(Set.of());
+        GameState state = new Ready();
         Command command = Command.from(List.of("move", "b1", "b2"));
 
         // when & then
-        assertThatCode(() -> state.play(command))
+        assertThatCode(() -> state.play(command, board))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessage("아직 게임이 시작되지 않았습니다.");
     }
@@ -59,7 +62,7 @@ class ReadyTest {
     @DisplayName("끝난 상태가 아니다.")
     void isEndTest() {
         // given
-        GameState state = new Ready(new Board(Set.of()));
+        GameState state = new Ready();
 
         // when & then
         assertThat(state.isEnd()).isFalse();

@@ -12,7 +12,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -235,13 +234,12 @@ class BoardTest {
     void getGameStatusSameTest() {
         // given
         Board board = BoardFactory.createBoard();
-        Map<String, Double> scoresByColor = Map.of("BLACK", 42.0, "WHITE", 42.0);
 
         // when
         GameStatus gameStatus = board.getGameStatus();
 
         // then
-        assertThat(gameStatus).isEqualTo(new GameStatus(scoresByColor, ""));
+        assertThat(gameStatus).isEqualTo(new GameStatus(42, 42));
     }
 
     @Test
@@ -257,12 +255,11 @@ class BoardTest {
                 new Pawn(PieceColor.WHITE, Square.from("e3")),
                 new Pawn(PieceColor.WHITE, Square.from("f5"))
         ));
-        Map<String, Double> scoresByColor = Map.of("BLACK", 17.0, "WHITE", 11.0);
 
         // when
         GameStatus gameStatus = board.getGameStatus();
 
         // then
-        assertThat(gameStatus).isEqualTo(new GameStatus(scoresByColor, "BLACK"));
+        assertThat(gameStatus).isEqualTo(new GameStatus(11, 17));
     }
 }

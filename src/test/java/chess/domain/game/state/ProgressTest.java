@@ -24,11 +24,12 @@ class ProgressTest {
         // given
         Piece blackKing = new King(PieceColor.BLACK, Square.from("b1"));
         Piece whiteKing = new King(PieceColor.WHITE, Square.from("b2"));
-        GameState state = new Progress(new Board(Set.of(blackKing, whiteKing)));
+        final Board board = new Board(Set.of(blackKing, whiteKing));
+        GameState state = new Progress();
         Command command = Command.from(List.of("move", "b2", "b3"));
 
         // when
-        GameState newState = state.play(command);
+        GameState newState = state.play(command, board);
 
         // then
         assertThat(newState instanceof Progress).isTrue();
@@ -40,11 +41,12 @@ class ProgressTest {
         // given
         Piece blackKing = new King(PieceColor.BLACK, Square.from("b1"));
         Piece whiteKing = new King(PieceColor.WHITE, Square.from("b2"));
-        GameState state = new Progress(new Board(Set.of(blackKing, whiteKing)));
+        final Board board = new Board(Set.of(blackKing, whiteKing));
+        GameState state = new Progress();
         Command command = Command.from(List.of("move", "b2", "b1"));
 
         // when
-        GameState newState = state.play(command);
+        GameState newState = state.play(command, board);
 
         // then
         assertThat(newState instanceof End).isTrue();
@@ -54,11 +56,12 @@ class ProgressTest {
     @DisplayName("시작 명령일 경우 예외가 발생한다.")
     void exceptionOnStartCommandTest() {
         // given
-        GameState state = new Progress(new Board(Set.of()));
-        Command command = Command.from(List.of("start"));
+        final Board board = new Board(Set.of());
+        GameState state = new Progress();
+        Command command = Command.from(List.of("start", "a", "b"));
 
         // when &
-        assertThatCode(() -> state.play(command))
+        assertThatCode(() -> state.play(command, board))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessage("이미 게임이 시작되었습니다.");
     }
@@ -67,7 +70,7 @@ class ProgressTest {
     @DisplayName("끝난 상태가 아니다.")
     void isEndTest() {
         // given
-        GameState state = new Progress(new Board(Set.of()));
+        GameState state = new Progress();
 
         // when & then
         assertThat(state.isEnd()).isFalse();

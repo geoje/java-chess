@@ -41,7 +41,7 @@ class CommandTest {
     @DisplayName("타입이 같은지 확인한다.")
     void isTypeTest() {
         // given
-        Command command = Command.from(List.of("start"));
+        Command command = Command.from(List.of("start", "a", "b"));
 
         // when
         boolean type = command.isType(CommandType.START);
@@ -54,7 +54,7 @@ class CommandTest {
     @DisplayName("여러 타입 중 하나인지 확인한다.")
     void anyMatchTypeTest() {
         // given
-        Command command = Command.from(List.of("start"));
+        Command command = Command.from(List.of("start", "a", "b"));
         CommandType[] commandTypes = {
                 CommandType.START,
                 CommandType.MOVE

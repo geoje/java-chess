@@ -11,14 +11,14 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 class RoomDaoTest {
 
     @Test
-    @DisplayName("ID로 모든 데이터를 가져온다.")
+    @DisplayName("ID로 데이터를 가져온다.")
     void findAllByIdTest() {
         // given
         int roomId = 0;
         final RoomDao roomDao = new RoomDao();
 
         // when & then
-        assertThatCode(() -> roomDao.findAllById(roomId))
+        assertThatCode(() -> roomDao.findById(roomId))
                 .doesNotThrowAnyException();
     }
 
@@ -55,12 +55,12 @@ class RoomDaoTest {
 
         // when & then
         final Room savedRoom = roomDao.save(room);
-        assertThat(savedRoom.id()).isGreaterThan(0);
+        assertThat(savedRoom.id().value()).isGreaterThan(0);
 
-        final int updatedCount = roomDao.updateWinnerById(savedRoom.id(), "blackTester");
+        final int updatedCount = roomDao.updateWinnerById(savedRoom.id().value(), "blackTester");
         assertThat(updatedCount).isGreaterThan(0);
 
-        final int deletedCount = roomDao.deleteAllById(savedRoom.id());
+        final int deletedCount = roomDao.deleteAllById(savedRoom.id().value());
         assertThat(deletedCount).isGreaterThan(0);
     }
 }
