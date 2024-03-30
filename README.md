@@ -51,3 +51,54 @@
 - [x] 이전에 진행했던 게임을 계속 이어할 수 있다.
     - [x] 게임 실행 전 이전 게임의 상태를 불러온다.
     - [x] 기물이 정상적으로 움직였을 경우 움직임을 저장한다.
+
+---
+
+## 🗃️ 데이터베이스
+프로그램 실행 시 아래 정의된 `DDL`이 실행되어 테이블이 자동으로 생성됩니다.
+
+연결 정보는 [DatabaseConfiguration.java](https://github.com/geoje/java-chess/blob/step2/src/main/java/chess/db/DatabaseConfiguration.java) 에서 수정 가능 합니다.
+
+
+### DDL
+``` sql
+CREATE DATABASE IF NOT EXISTS chess DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+USE chess;
+
+CREATE TABLE IF NOT EXISTS room
+(
+    id         INT AUTO_INCREMENT,
+    user_white VARCHAR(20) NOT NULL,
+    user_black VARCHAR(20) NOT NULL,
+    winner     VARCHAR(20) NOT NULL DEFAULT '',
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS move
+(
+    room_id    INT     NOT NULL,
+    source     CHAR(2) NOT NULL,
+    target     CHAR(2) NOT NULL,
+    created_at TIMESTAMP(3) DEFAULT NOW(3),
+    FOREIGN KEY (room_id) REFERENCES room (id)
+);
+```
+
+### Entity Relationship Diagram
+``` mermaid
+erDiagram
+    room ||--o{ move : "room_id:id"
+    room {
+        int id
+        varchar(20) user_white
+        varchar(20) user_black
+        varchar(20) winner
+    }
+    move {
+        int room_id
+        char(2) source
+        char(2) target
+        timestamp(3) created_at
+    }
+```
