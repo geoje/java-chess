@@ -8,6 +8,7 @@ import chess.domain.game.room.Room;
 import chess.domain.game.room.RoomId;
 import chess.domain.game.state.GameState;
 import chess.domain.game.state.Ready;
+import chess.domain.piece.PieceColor;
 import chess.domain.square.Move;
 import chess.repository.MoveDao;
 import chess.repository.MoveRepository;
@@ -53,6 +54,7 @@ public class ChessGame {
             Command command = requestUntilValid(() -> Command.from(inputView.readCommand()));
             state = tryGet(() -> playAndPrint(currentState, command)).orElse(state);
         }
+        saveAndPrintWinner();
     }
 
     private GameState playAndPrint(GameState state, Command command) {
@@ -103,6 +105,26 @@ public class ChessGame {
 
     private void printScores(Command command) {
         outputView.printScores(board.getGameStatus());
+    }
+
+    private void saveAndPrintWinner() {
+        if (!board.isKingCaptured()) {
+            return;
+        }
+        final String winnerUsername = getWinnerUsername();
+        roomRepository.updateWinnerById(room.id().value(), winnerUsername);
+        outputView.printWinner(winnerUsername);
+    }
+
+    private String getWinnerUsername() {
+        PieceColor winnerColor = board.getWinnerColor();
+        if (winnerColor == PieceColor.WHITE) {
+            return room.userWhite().name();
+        }
+        if (winnerColor == PieceColor.BLACK) {
+            return room.userBlack().name();
+        }
+        return "";
     }
 
     private <T> T requestUntilValid(final Supplier<T> supplier) {

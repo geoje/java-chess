@@ -8,10 +8,8 @@ import chess.domain.square.Square;
 import chess.dto.GameStatus;
 import chess.dto.PieceDrawing;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public class Board {
@@ -89,20 +87,9 @@ public class Board {
     }
 
     public GameStatus getGameStatus() {
-        Map<String, Double> scoresByColor = calculateScores();
-        List<String> winners = calculateWinners(scoresByColor);
-        if (winners.size() == 1) {
-            return new GameStatus(scoresByColor, winners.get(0));
-        }
-        return new GameStatus(scoresByColor, "");
-    }
-
-    private Map<String, Double> calculateScores() {
-        Map<String, Double> scoresByColor = new HashMap<>();
-        for (PieceColor color : PieceColor.values()) {
-            scoresByColor.put(color.name(), calculateTotalScore(color));
-        }
-        return scoresByColor;
+        double whiteScore = calculateTotalScore(PieceColor.WHITE);
+        double blackScore = calculateTotalScore(PieceColor.BLACK);
+        return new GameStatus(whiteScore, blackScore);
     }
 
     private double calculateTotalScore(final PieceColor color) {
@@ -112,18 +99,11 @@ public class Board {
                 .sum();
     }
 
-    private <T> List<T> calculateWinners(final Map<T, Double> scores) {
-        double maxScore = calculateMaxScore(scores);
-        return scores.entrySet().stream()
-                .filter(entry -> entry.getValue() == maxScore)
-                .map(Map.Entry::getKey)
-                .toList();
-    }
-
-    private <T> double calculateMaxScore(final Map<T, Double> scores) {
-        return scores.values().stream()
-                .mapToDouble(v -> v)
-                .max()
-                .orElse(0);
+    public PieceColor getWinnerColor() {
+        return pieces.stream()
+                .filter(piece -> piece instanceof King)
+                .findFirst()
+                .map(Piece::getColor)
+                .orElse(null);
     }
 }

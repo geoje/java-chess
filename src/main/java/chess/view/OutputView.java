@@ -25,8 +25,9 @@ public class OutputView {
                         
             """;
     private static final String ROOM_STATUS_FORMAT = "방 번호: %d / 흰색 유저: %s / 검은색 유저: %s%n";
-    private static final String TITLE_WINNER = "승자: ";
-    private static final String FORMAT_COLOR_SCORE = "%s: %.1f%n";
+    private static final String WHITE_SCORE_FORMAT = "흰색: %.1f%n";
+    private static final String BLACK_SCORE_FORMAT = "검은색: %.1f%n";
+    private static final String WINNER_FORMAT = "승자: %s%n";
     private static final String NO_ROOM = "방이 존재하지 않습니다.%n%n";
     private static final String ERROR_MESSAGE_FORMAT = "[ERROR] %s%n%n";
 
@@ -75,14 +76,13 @@ public class OutputView {
     }
 
     public void printScores(GameStatus gameStatus) {
-        gameStatus.scoresByColor().forEach(this::printScore);
-        System.out.println(TITLE_WINNER + PieceColorMapper.map(gameStatus.winner()));
+        System.out.printf(WHITE_SCORE_FORMAT, gameStatus.whiteScore());
+        System.out.printf(BLACK_SCORE_FORMAT, gameStatus.blackScore());
         System.out.println();
     }
 
-    private void printScore(String color, double score) {
-        String outputColor = PieceColorMapper.map(color);
-        System.out.printf(FORMAT_COLOR_SCORE, outputColor, score);
+    public void printWinner(String winner) {
+        System.out.printf(WINNER_FORMAT, winner);
     }
 
     public void printErrorMessage(String message) {
