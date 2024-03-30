@@ -108,7 +108,7 @@ public class ChessGame {
     }
 
     private void saveAndPrintWinner() {
-        if (!board.isKingCaptured()) {
+        if (board == null || !board.isKingCaptured()) {
             return;
         }
         final String winnerUsername = getWinnerUsername();
