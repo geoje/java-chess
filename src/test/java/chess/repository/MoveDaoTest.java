@@ -1,6 +1,6 @@
 package chess.repository;
 
-import chess.domain.game.Room;
+import chess.domain.game.room.Room;
 import chess.domain.square.Move;
 import chess.domain.square.Square;
 import org.junit.jupiter.api.DisplayName;

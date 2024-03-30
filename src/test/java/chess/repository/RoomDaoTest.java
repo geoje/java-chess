@@ -1,6 +1,6 @@
 package chess.repository;
 
-import chess.domain.game.Room;
+import chess.domain.game.room.Room;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS room
     id         INT AUTO_INCREMENT,
     user_white VARCHAR(20) NOT NULL,
     user_black VARCHAR(20) NOT NULL,
-    winner     VARCHAR(20) NOT NULL,
+    winner     VARCHAR(20) NOT NULL DEFAULT '',
     PRIMARY KEY (id)
 );
 

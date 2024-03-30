@@ -1,7 +1,8 @@
 package chess.repository;
 
 import chess.db.JdbcConnection;
-import chess.domain.game.Room;
+import chess.domain.game.room.Room;
+import chess.domain.game.room.RoomId;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,21 +13,20 @@ import java.util.List;
 public class RoomDao implements RoomRepository {
 
     @Override
-    public List<Room> findAllById(int id) {
+    public Room findById(int id) {
         final var query = "SELECT * FROM room WHERE id = ?";
         try (final var statement = JdbcConnection.getConnection().prepareStatement(query)) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
-            List<Room> list = new ArrayList<>();
-            while (resultSet.next()) {
-                list.add(Room.from(
+            if (resultSet.next()) {
+                return Room.from(
                         resultSet.getInt("id"),
                         resultSet.getString("user_white"),
                         resultSet.getString("user_black"),
                         resultSet.getString("winner")
-                ));
+                );
             }
-            return list;
+            return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -75,6 +75,26 @@ public class RoomDao implements RoomRepository {
     }
 
     @Override
+    public List<Room> findAllInProgress() {
+        final var query = "SELECT * FROM room WHERE winner = ''";
+        try (final var statement = JdbcConnection.getConnection().createStatement()) {
+            ResultSet resultSet = statement.executeQuery(query);
+            List<Room> list = new ArrayList<>();
+            while (resultSet.next()) {
+                list.add(Room.from(
+                        resultSet.getInt("id"),
+                        resultSet.getString("user_white"),
+                        resultSet.getString("user_black"),
+                        resultSet.getString("winner")
+                ));
+            }
+            return list;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public Room save(Room room) {
         final var query = "INSERT INTO room (user_white, user_black) VALUES (?, ?)";
         try (final var statement = JdbcConnection.getConnection()
@@ -84,7 +104,7 @@ public class RoomDao implements RoomRepository {
             statement.executeUpdate();
             final ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
-                return new Room(generatedKeys.getInt(1), room.userWhite(), room.userBlack(), room.winner());
+                return new Room(new RoomId(generatedKeys.getInt(1)), room.userWhite(), room.userBlack(), room.winner());
             }
             return room;
         } catch (SQLException e) {

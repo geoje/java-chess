@@ -6,21 +6,18 @@ import chess.domain.game.command.CommandType;
 
 public class Ready implements GameState {
 
-    private final Board board;
-
-    public Ready(final Board board) {
-        this.board = board;
-    }
-
     @Override
-    public GameState play(final Command command) {
-        if (command.isType(CommandType.START)) {
-            return new Progress(board);
+    public GameState play(final Command command, final Board board) {
+        if (command.anyMatchType(CommandType.START, CommandType.RESUME)) {
+            return new Progress();
+        }
+        if (command.anyMatchType(CommandType.MOVE, CommandType.STATUS)) {
+            throw new UnsupportedOperationException("아직 게임이 시작되지 않았습니다.");
         }
         if (command.isType(CommandType.END)) {
             return new End();
         }
-        throw new UnsupportedOperationException("아직 게임이 시작되지 않았습니다.");
+        return this;
     }
 
     @Override

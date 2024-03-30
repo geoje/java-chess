@@ -4,72 +4,104 @@ import chess.domain.board.Board;
 import chess.domain.board.BoardFactory;
 import chess.domain.game.command.Command;
 import chess.domain.game.command.CommandType;
-import chess.domain.game.state.End;
+import chess.domain.game.room.Room;
+import chess.domain.game.room.RoomId;
 import chess.domain.game.state.GameState;
 import chess.domain.game.state.Ready;
+import chess.domain.square.Move;
 import chess.repository.MoveDao;
+import chess.repository.MoveRepository;
+import chess.repository.RoomDao;
+import chess.repository.RoomRepository;
 import chess.view.InputView;
 import chess.view.OutputView;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class ChessGame {
 
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
-    private final MoveDao moveDao = new MoveDao();
-    private final Map<CommandType, BiConsumer<Command, Board>> invokers;
+    private final RoomRepository roomRepository = new RoomDao();
+    private final MoveRepository moveRepository = new MoveDao();
+    private final Map<CommandType, Consumer<Command>> invokers;
+
+    private Room room;
+    private Board board;
 
     public ChessGame() {
         invokers = Map.of(
-                CommandType.START, this::printBoard,
-                CommandType.MOVE, this::printBoard,
+                CommandType.START, this::startNewGame,
+                CommandType.RESUME, this::resumeGame,
+                CommandType.ROOM, this::printRoom,
+                CommandType.USER, this::printUser,
+                CommandType.MOVE, this::moveAndPrint,
                 CommandType.STATUS, this::printScores
         );
     }
 
     public void run() {
         outputView.printStartMessage();
-        Board board = prepareBoard();
-        GameState state = measureStateFromBoard(board);
+        GameState state = new Ready();
 
         while (!state.isEnd()) {
             GameState currentState = state;
             Command command = requestUntilValid(() -> Command.from(inputView.readCommand()));
-            state = tryGet(() -> playAndPrint(currentState, command, board)).orElse(state);
+            state = tryGet(() -> playAndPrint(currentState, command)).orElse(state);
         }
     }
 
-    private Board prepareBoard() {
-        Board board = BoardFactory.createBoard();
-        moveDao.findAllByRoomId(0)
-                .forEach(move -> board.move(move.source(), move.target()));
-        return board;
-    }
-
-    private GameState measureStateFromBoard(Board board) {
-        if (board.isKingCaptured()) {
-            return new End();
-        }
-        return new Ready(board);
-    }
-
-    private GameState playAndPrint(GameState state, Command command, Board board) {
-        final GameState newState = state.play(command);
+    private GameState playAndPrint(GameState state, Command command) {
+        final GameState newState = state.play(command, board);
         if (invokers.containsKey(command.type())) {
-            invokers.get(command.type()).accept(command, board);
+            invokers.get(command.type()).accept(command);
         }
         return newState;
     }
 
-    private void printBoard(Command command, Board board) {
+    private void startNewGame(Command command) {
+        Room roomWithoutId = Room.from(command.getArgument(1), command.getArgument(2));
+        room = roomRepository.save(roomWithoutId);
+        board = BoardFactory.createBoard();
+        outputView.printRoom(room);
         outputView.printBoard(board.getPiecesStatus());
     }
 
-    private void printScores(Command command, Board board) {
+    private void resumeGame(Command command) {
+        RoomId roomId = RoomId.from(command.getArgument(1));
+        room = roomRepository.findById(roomId.value());
+        if (room == null) {
+            throw new IllegalArgumentException("존재하지 않는 방입니다.");
+        }
+        board = BoardFactory.createBoard();
+        List<Move> moves = moveRepository.findAllByRoomId(room.id().value());
+        moves.forEach(move -> board.move(move.source(), move.target()));
+        outputView.printRoom(room);
+        outputView.printBoard(board.getPiecesStatus());
+    }
+
+    private void printRoom(Command command) {
+        final List<Room> rooms = roomRepository.findAllInProgress();
+        outputView.printRooms(rooms);
+    }
+
+    private void printUser(Command command) {
+        System.out.println("유저 출력\n");
+    }
+
+    private void moveAndPrint(Command command) {
+        int roomId = room.id().value();
+        String source = command.getArgument(1);
+        String target = command.getArgument(2);
+        moveRepository.save(Move.from(roomId, source, target));
+        outputView.printBoard(board.getPiecesStatus());
+    }
+
+    private void printScores(Command command) {
         outputView.printScores(board.getGameStatus());
     }
 

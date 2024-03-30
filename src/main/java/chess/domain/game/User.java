@@ -7,7 +7,7 @@ public record User(String name) {
 
     private void validateLength(String name) {
         if (name.length() > 20) {
-            throw new IllegalArgumentException("유저 이름의 길이는 20자를 넘을 수 없습니다.");
+            throw new IllegalArgumentException("유저 이름은 20자를 넘을 수 없습니다.");
         }
     }
 }

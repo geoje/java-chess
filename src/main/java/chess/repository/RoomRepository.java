@@ -1,15 +1,17 @@
 package chess.repository;
 
-import chess.domain.game.Room;
+import chess.domain.game.room.Room;
 
 import java.util.List;
 
 public interface RoomRepository {
-    List<Room> findAllById(int id);
+    Room findById(int id);
 
     List<Room> findAllByUserWhite(String userWhite);
 
     List<Room> findAllByUserBlack(String userBlack);
+
+    List<Room> findAllInProgress();
 
     Room save(Room room);
 

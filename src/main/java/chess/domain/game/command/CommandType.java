@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public enum CommandType {
 
-    START("start", 0),
+    START("start", 2),
     RESUME("resume", 1),
     ROOM("room", 0),
     USER("user", 1),
