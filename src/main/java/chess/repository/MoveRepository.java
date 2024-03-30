@@ -7,5 +7,7 @@ import java.util.List;
 public interface MoveRepository {
     List<Move> findAllByRoomId(int roomId);
 
-    void save(Move move);
+    int save(Move move);
+
+    int deleteAllByRoomId(int roomId);
 }

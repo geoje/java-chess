@@ -4,8 +4,11 @@ USE chess;
 
 CREATE TABLE IF NOT EXISTS room
 (
-    id       INT         NOT NULL,
-    username VARCHAR(10) NOT NULL
+    id         INT AUTO_INCREMENT,
+    user_white VARCHAR(20) NOT NULL,
+    user_black VARCHAR(20) NOT NULL,
+    winner     VARCHAR(20) NOT NULL,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS move
@@ -13,5 +16,6 @@ CREATE TABLE IF NOT EXISTS move
     room_id    INT     NOT NULL,
     source     CHAR(2) NOT NULL,
     target     CHAR(2) NOT NULL,
-    created_at TIMESTAMP(3) DEFAULT NOW(3)
+    created_at TIMESTAMP(3) DEFAULT NOW(3),
+    FOREIGN KEY (room_id) REFERENCES room (id)
 );

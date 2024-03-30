@@ -1,13 +1,13 @@
 package chess.repository;
 
+import chess.domain.game.Room;
 import chess.domain.square.Move;
 import chess.domain.square.Square;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 @DisplayName("움직임")
 class MoveDaoTest {
@@ -18,26 +18,28 @@ class MoveDaoTest {
         // given
         MoveDao moveDao = new MoveDao();
 
-        // when
-        List<Move> list = moveDao.findAllByRoomId(0);
-
-        // then
-        System.out.println("list = " + list);
+        // when & then
+        assertThatCode(() -> moveDao.findAllByRoomId(0))
+                .doesNotThrowAnyException();
     }
 
     @Test
-    @DisplayName("데이터를 저장한다.")
-    void saveTest() {
+    @DisplayName("데이터를 저장하고 삭제한다.")
+    void saveAndDeleteTest() {
         // given
-        Move move = new Move(0, Square.from("b2"), Square.from("b4"));
+        RoomDao roomDao = new RoomDao();
         MoveDao moveDao = new MoveDao();
-        int size = moveDao.findAllByRoomId(0).size();
 
-        // when
-        moveDao.save(move);
-        int newSize = moveDao.findAllByRoomId(0).size();
+        // when & then
+        Room room = roomDao.save(Room.from("testWhite", "testBlack"));
+        Move move = new Move(room.id(), Square.from("b2"), Square.from("b4"));
 
-        // then
-        assertThat(newSize).isEqualTo(size + 1);
+        final int saveCount = moveDao.save(move);
+        assertThat(saveCount).isGreaterThan(0);
+
+        final int deleteCount = moveDao.deleteAllByRoomId(room.id());
+        assertThat(deleteCount).isGreaterThan(0);
+
+        roomDao.deleteAllById(room.id());
     }
 }

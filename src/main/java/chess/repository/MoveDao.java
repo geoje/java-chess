@@ -30,13 +30,24 @@ public class MoveDao implements MoveRepository {
     }
 
     @Override
-    public void save(final Move move) {
+    public int save(final Move move) {
         final var query = "INSERT INTO move (room_id, source, target) VALUES (?, ?, ?)";
         try (final var statement = JdbcConnection.getConnection().prepareStatement(query)) {
             statement.setInt(1, move.roomId());
             statement.setString(2, move.source().toInput());
             statement.setString(3, move.target().toInput());
-            statement.executeUpdate();
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int deleteAllByRoomId(int roomId) {
+        final var query = "DELETE FROM move WHERE room_id = ?";
+        try (final var statement = JdbcConnection.getConnection().prepareStatement(query)) {
+            statement.setInt(1, roomId);
+            return statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
