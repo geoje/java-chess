@@ -30,6 +30,21 @@ class ReadyTest {
     }
 
     @Test
+    @DisplayName("방 명령일 경우 진행 상태가 된다.")
+    void playWithStartRoomTest() {
+        // given
+        final Board board = new Board(Set.of());
+        GameState state = new Ready();
+        Command command = Command.from(List.of("room"));
+
+        // when
+        GameState newState = state.play(command, board);
+
+        // then
+        assertThat(newState instanceof Ready).isTrue();
+    }
+
+    @Test
     @DisplayName("종료 명령일 경우 종료 상태가 된다.")
     void playWithEndCommandTest() {
         // given

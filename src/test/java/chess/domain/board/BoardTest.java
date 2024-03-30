@@ -1,5 +1,6 @@
 package chess.domain.board;
 
+import chess.domain.piece.King;
 import chess.domain.piece.Knight;
 import chess.domain.piece.Pawn;
 import chess.domain.piece.PieceColor;
@@ -261,5 +262,20 @@ class BoardTest {
 
         // then
         assertThat(gameStatus).isEqualTo(new GameStatus(11, 17));
+    }
+
+    @Test
+    @DisplayName("승자를 판별한다.")
+    void getWinnerColor() {
+        // given
+        Board board = new Board(Set.of(
+                new King(PieceColor.BLACK, Square.from("a1"))
+        ));
+
+        // when
+        PieceColor pieceColor = board.getWinnerColor();
+
+        // then
+        assertThat(pieceColor).isEqualTo(PieceColor.BLACK);
     }
 }
