@@ -55,12 +55,15 @@
 ---
 
 ## 🗃️ 데이터베이스
+
 프로그램 실행 시 아래 정의된 `DDL`이 실행되어 테이블이 자동으로 생성됩니다.
 
-연결 정보는 [DatabaseConfiguration.java](https://github.com/geoje/java-chess/blob/step2/src/main/java/chess/db/DatabaseConfiguration.java) 에서 수정 가능 합니다.
-
+연결
+정보는 [DatabaseConfiguration.java](https://github.com/geoje/java-chess/blob/step2/src/main/java/chess/db/DatabaseConfiguration.java)
+에서 수정 가능 합니다.
 
 ### DDL
+
 ``` sql
 CREATE DATABASE IF NOT EXISTS chess DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
@@ -86,6 +89,7 @@ CREATE TABLE IF NOT EXISTS move
 ```
 
 ### Entity Relationship Diagram
+
 ``` mermaid
 erDiagram
     room ||--o{ move : "room_id:id"
@@ -101,4 +105,88 @@ erDiagram
         char(2) target
         timestamp(3) created_at
     }
+```
+
+---
+
+## 🚀 실행 예시
+
+### Introduction
+
+```
++---------------------------------------------------------------+
+| 우아한 체스 게임						|
++---------------------------------------------------------------+
+| 게임 시작		| start [white유저이름] [black유저이름]	|
+| 게임 재개		| resume [방번호]			|
+| 방 리스트		| room					|
+| 유저 정보		| user [유저이름]			|
+| 이동			| move [source위치] [target위치]		|
+| 승패 및 점수		| status				|
+| 게임 종료		| end					|
++---------------------------------------------------------------+
+```
+
+### `start user 1 user2` 흰색을 user1, 검은색을 user2 로 새로운 게임을 시작합니다.
+
+```
+방 번호: 19 / 흰색: user1 / 검은색: user2
+RNBQKBNR
+PPPPPPPP
+........
+........
+........
+........
+pppppppp
+rnbqkbnr
+```
+
+### `resume 1` 방 1에 게임을 이어 진행합니다.
+
+```
+방 번호: 1 / 흰색: a / 검은색: b
+RNB.KBNR
+PPPP.PPP
+........
+....P...
+......pQ
+.....p.p
+ppppp...
+rnbqkbnr
+```
+
+### `room` 게임이 끝나지 않은 방을 확인합니다.
+
+```
+방 번호: 1 / 흰색: a / 검은색: b
+방 번호: 19 / 흰색: user1 / 검은색: user2
+```
+
+### `user a` 유저 a 에 대한 정보를 확인합니다.
+
+```
+승리: 0 / 패배: 1
+[진행 중인 방]
+방 번호: 1 / 흰색: a / 검은색: b
+```
+
+### `move b2 b4` b2에 있는 기물을 b4로 움직입니다.
+
+```
+RNBQKBNR
+PPPPPPPP
+........
+........
+.p......
+........
+p.pppppp
+rnbqkbnr
+```
+
+### `status` 현재 방 정보와 유저의 점수를 확인합니다.
+
+```
+방 번호: 19 / 흰색: user1 / 검은색: user2
+흰색: 42.0
+검은색: 42.0
 ```
