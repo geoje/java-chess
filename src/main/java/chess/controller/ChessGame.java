@@ -112,6 +112,7 @@ public class ChessGame {
     }
 
     private void printScores(Command command) {
+        outputView.printRoom(room);
         outputView.printScores(board.getGameStatus());
     }
 
