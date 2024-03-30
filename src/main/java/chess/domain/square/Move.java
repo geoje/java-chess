@@ -1,7 +1,7 @@
 package chess.domain.square;
 
-public record Move(Square source, Square target) {
-    public static Move from(String source, String target) {
-        return new Move(Square.from(source), Square.from(target));
+public record Move(int roomId, Square source, Square target) {
+    public static Move from(int roomId, String source, String target) {
+        return new Move(roomId, chess.domain.square.Square.from(source), chess.domain.square.Square.from(target));
     }
 }

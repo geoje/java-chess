@@ -45,7 +45,7 @@ public class ChessGame {
 
     private Board prepareBoard() {
         Board board = BoardFactory.createBoard();
-        moveDao.findAll()
+        moveDao.findAllByRoomId(0)
                 .forEach(move -> board.move(move.source(), move.target()));
         return board;
     }
@@ -65,12 +65,12 @@ public class ChessGame {
         return newState;
     }
 
-    private void printScores(Command command, Board board) {
-        outputView.printScores(board.getGameStatus());
-    }
-
     private void printBoard(Command command, Board board) {
         outputView.printBoard(board.getPiecesStatus());
+    }
+
+    private void printScores(Command command, Board board) {
+        outputView.printScores(board.getGameStatus());
     }
 
     private <T> T requestUntilValid(final Supplier<T> supplier) {

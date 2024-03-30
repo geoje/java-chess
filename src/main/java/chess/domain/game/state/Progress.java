@@ -44,7 +44,7 @@ public class Progress implements GameState {
     }
 
     private void saveMoveToDb(Square source, Square target) {
-        moveDao.save(new Move(source, target));
+        moveDao.save(new Move(0, source, target));
     }
 
     @Override

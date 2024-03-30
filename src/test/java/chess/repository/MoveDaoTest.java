@@ -14,12 +14,12 @@ class MoveDaoTest {
 
     @Test
     @DisplayName("모든 데이터를 가져온다.")
-    void findAllTest() {
+    void findAllByRoomId() {
         // given
         MoveDao moveDao = new MoveDao();
 
         // when
-        List<Move> list = moveDao.findAll();
+        List<Move> list = moveDao.findAllByRoomId(0);
 
         // then
         System.out.println("list = " + list);
@@ -29,13 +29,13 @@ class MoveDaoTest {
     @DisplayName("데이터를 저장한다.")
     void saveTest() {
         // given
-        Move move = new Move(Square.from("b2"), Square.from("b4"));
+        Move move = new Move(0, Square.from("b2"), Square.from("b4"));
         MoveDao moveDao = new MoveDao();
-        int size = moveDao.findAll().size();
+        int size = moveDao.findAllByRoomId(0).size();
 
         // when
         moveDao.save(move);
-        int newSize = moveDao.findAll().size();
+        int newSize = moveDao.findAllByRoomId(0).size();
 
         // then
         assertThat(newSize).isEqualTo(size + 1);

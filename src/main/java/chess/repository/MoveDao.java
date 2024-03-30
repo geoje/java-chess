@@ -10,13 +10,15 @@ import java.util.List;
 
 public class MoveDao implements MoveRepository {
     @Override
-    public List<Move> findAll() {
-        final var query = "SELECT * FROM move";
-        try (final var statement = JdbcConnection.getConnection().createStatement()) {
-            ResultSet resultSet = statement.executeQuery(query);
+    public List<Move> findAllByRoomId(int roomId) {
+        final var query = "SELECT * FROM move WHERE room_id = ?";
+        try (final var statement = JdbcConnection.getConnection().prepareStatement(query)) {
+            statement.setInt(1, roomId);
+            ResultSet resultSet = statement.executeQuery();
             List<Move> list = new ArrayList<>();
             while (resultSet.next()) {
                 list.add(Move.from(
+                        resultSet.getInt("room_id"),
                         resultSet.getString("source"),
                         resultSet.getString("target")
                 ));
@@ -29,10 +31,11 @@ public class MoveDao implements MoveRepository {
 
     @Override
     public void save(final Move move) {
-        final var query = "INSERT INTO move (source, target) VALUES (?, ?)";
+        final var query = "INSERT INTO move (room_id, source, target) VALUES (?, ?, ?)";
         try (final var statement = JdbcConnection.getConnection().prepareStatement(query)) {
-            statement.setString(1, move.source().toInput());
-            statement.setString(2, move.target().toInput());
+            statement.setInt(1, move.roomId());
+            statement.setString(2, move.source().toInput());
+            statement.setString(3, move.target().toInput());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
