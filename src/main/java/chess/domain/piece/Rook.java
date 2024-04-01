@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Rook extends Piece {
 
-    private static final int SCORE = 7;
+    private static final int SCORE = 5;
 
     public Rook(final PieceColor color, final Square square) {
         super(color, square);
