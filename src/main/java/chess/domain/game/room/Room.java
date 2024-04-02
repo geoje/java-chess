@@ -14,4 +14,16 @@ public record Room(RoomId id, User userWhite, User userBlack, User winner) {
     public int getId() {
         return id.value();
     }
+
+    public String getUserWhiteName() {
+        return userWhite.name();
+    }
+
+    public String getUserBlackName() {
+        return userBlack.name();
+    }
+
+    public String getWinnerName() {
+        return winner.name();
+    }
 }

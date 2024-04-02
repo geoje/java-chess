@@ -99,8 +99,8 @@ public class RoomDao implements RoomRepository {
         final var query = "INSERT INTO room (user_white, user_black) VALUES (?, ?)";
         try (final var statement = JdbcConnection.getConnection()
                 .prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, room.userWhite().name());
-            statement.setString(2, room.userBlack().name());
+            statement.setString(1, room.getUserWhiteName());
+            statement.setString(2, room.getUserBlackName());
             statement.executeUpdate();
             final ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {

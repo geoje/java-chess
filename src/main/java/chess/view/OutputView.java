@@ -46,9 +46,9 @@ public class OutputView {
 
     public void printRoom(Room room) {
         System.out.printf(ROOM_STATUS_FORMAT,
-                room.id().value(),
-                room.userWhite().name(),
-                room.userBlack().name());
+                room.getId(),
+                room.getUserWhiteName(),
+                room.getUserBlackName());
     }
 
     public void printUser(int win, int lose, List<Room> rooms) {

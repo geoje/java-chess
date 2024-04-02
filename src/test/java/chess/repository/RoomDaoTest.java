@@ -55,12 +55,12 @@ class RoomDaoTest {
 
         // when & then
         final Room savedRoom = roomDao.save(room);
-        assertThat(savedRoom.id().value()).isGreaterThan(0);
+        assertThat(savedRoom.getId()).isGreaterThan(0);
 
-        final int updatedCount = roomDao.updateWinnerById(savedRoom.id().value(), "blackTester");
+        final int updatedCount = roomDao.updateWinnerById(savedRoom.getId(), "blackTester");
         assertThat(updatedCount).isGreaterThan(0);
 
-        final int deletedCount = roomDao.deleteAllById(savedRoom.id().value());
+        final int deletedCount = roomDao.deleteAllById(savedRoom.getId());
         assertThat(deletedCount).isGreaterThan(0);
     }
 }

@@ -32,14 +32,15 @@ class MoveDaoTest {
 
         // when & then
         Room room = roomDao.save(Room.of("testWhite", "testBlack"));
-        Move move = new Move(room.id().value(), Square.from("b2"), Square.from("b4"));
+        Move move = new Move(room.getId(), Square.from("b2"), Square.from("b4"));
 
         final int saveCount = moveDao.save(move);
         assertThat(saveCount).isGreaterThan(0);
 
-        final int deleteCount = moveDao.deleteAllByRoomId(room.id().value());
+        final int deleteCount = moveDao.deleteAllByRoomId(room.getId());
         assertThat(deleteCount).isGreaterThan(0);
 
-        roomDao.deleteAllById(room.id().value());
+        roomDao.deleteAllById(room.getId());
     }
 }
+

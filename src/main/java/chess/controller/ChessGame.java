@@ -81,7 +81,7 @@ public class ChessGame {
             throw new IllegalArgumentException("존재하지 않는 방입니다.");
         }
         board = BoardFactory.createBoard();
-        List<Move> moves = moveRepository.findAllByRoomId(room.id().value());
+        List<Move> moves = moveRepository.findAllByRoomId(room.getId());
         moves.forEach(move -> board.move(move.source(), move.target()));
         outputView.printRoom(room);
         outputView.printBoard(board.getPiecesStatus());
@@ -131,10 +131,10 @@ public class ChessGame {
     private String getWinnerUsername() {
         PieceColor winnerColor = board.getWinnerColor();
         if (winnerColor == PieceColor.WHITE) {
-            return room.userWhite().name();
+            return room.getUserWhiteName();
         }
         if (winnerColor == PieceColor.BLACK) {
-            return room.userBlack().name();
+            return room.getUserBlackName();
         }
         return "";
     }
