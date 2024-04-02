@@ -1,6 +1,7 @@
 package chess.domain.square;
 
 public enum Rank {
+
     EIGHT(0),
     SEVEN(1),
     SIX(2),

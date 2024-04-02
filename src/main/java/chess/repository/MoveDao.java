@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MoveDao implements MoveRepository {
+
     @Override
     public List<Move> findAllByRoomId(int roomId) {
         final var query = "SELECT * FROM move WHERE room_id = ?";

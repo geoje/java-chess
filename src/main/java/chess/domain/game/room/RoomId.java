@@ -1,6 +1,7 @@
 package chess.domain.game.room;
 
 public record RoomId(int value) {
+    
     public static RoomId from(String value) {
         validateNumeric(value);
         return new RoomId(Integer.parseInt(value));

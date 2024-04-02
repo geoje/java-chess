@@ -5,6 +5,7 @@ import chess.domain.game.room.Room;
 import java.util.List;
 
 public interface RoomRepository {
+    
     Room findById(int id);
 
     List<Room> findAllByUserWhite(String userWhite);

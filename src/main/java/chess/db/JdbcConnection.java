@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class JdbcConnection {
+
     private static final JdbcConnection INSTANCE = new JdbcConnection();
 
     private final Connection connection;

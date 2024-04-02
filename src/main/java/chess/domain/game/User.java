@@ -1,6 +1,7 @@
 package chess.domain.game;
 
 public record User(String name) {
+
     public User {
         validateLength(name);
     }

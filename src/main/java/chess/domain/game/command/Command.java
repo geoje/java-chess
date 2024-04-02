@@ -4,8 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public record Command(CommandType type, List<String> arguments) {
-
-
+    
     public Command {
         validateArgumentCount(type, arguments);
     }

@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DatabaseInitializer {
+
     private static final String CHESS_DDL_FILENAME = "ddl.sql";
 
     public void initialize(Connection connection) {
