@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MoveDao implements MoveRepository {
+public class MoveRepositoryImpl implements MoveRepository {
 
     @Override
     public List<Move> findAllByRoomId(int roomId) {

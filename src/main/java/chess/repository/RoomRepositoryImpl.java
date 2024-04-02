@@ -10,7 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomDao implements RoomRepository {
+public class RoomRepositoryImpl implements RoomRepository {
 
     @Override
     public Room findById(int id) {

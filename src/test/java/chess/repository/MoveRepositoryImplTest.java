@@ -10,16 +10,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 @DisplayName("움직임")
-class MoveDaoTest {
+class MoveRepositoryImplTest {
 
     @Test
     @DisplayName("모든 데이터를 가져온다.")
     void findAllByRoomId() {
         // given
-        MoveDao moveDao = new MoveDao();
+        MoveRepositoryImpl moveRepositoryImpl = new MoveRepositoryImpl();
 
         // when & then
-        assertThatCode(() -> moveDao.findAllByRoomId(0))
+        assertThatCode(() -> moveRepositoryImpl.findAllByRoomId(0))
                 .doesNotThrowAnyException();
     }
 
@@ -27,20 +27,20 @@ class MoveDaoTest {
     @DisplayName("데이터를 저장하고 삭제한다.")
     void saveAndDeleteTest() {
         // given
-        RoomDao roomDao = new RoomDao();
-        MoveDao moveDao = new MoveDao();
+        RoomRepositoryImpl roomRepositoryImpl = new RoomRepositoryImpl();
+        MoveRepositoryImpl moveRepositoryImpl = new MoveRepositoryImpl();
 
         // when & then
-        Room room = roomDao.save(Room.of("testWhite", "testBlack"));
+        Room room = roomRepositoryImpl.save(Room.of("testWhite", "testBlack"));
         Move move = new Move(room.id(), Square.from("b2"), Square.from("b4"));
 
-        final int saveCount = moveDao.save(move);
+        final int saveCount = moveRepositoryImpl.save(move);
         assertThat(saveCount).isGreaterThan(0);
 
-        final int deleteCount = moveDao.deleteAllByRoomId(room.getId());
+        final int deleteCount = moveRepositoryImpl.deleteAllByRoomId(room.getId());
         assertThat(deleteCount).isGreaterThan(0);
 
-        roomDao.deleteAllById(room.getId());
+        roomRepositoryImpl.deleteAllById(room.getId());
     }
 }
 

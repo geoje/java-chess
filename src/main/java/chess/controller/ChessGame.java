@@ -11,10 +11,10 @@ import chess.domain.game.state.Ready;
 import chess.domain.piece.PieceColor;
 import chess.domain.square.Move;
 import chess.dto.UserStatus;
-import chess.repository.MoveDao;
 import chess.repository.MoveRepository;
-import chess.repository.RoomDao;
+import chess.repository.MoveRepositoryImpl;
 import chess.repository.RoomRepository;
+import chess.repository.RoomRepositoryImpl;
 import chess.view.InputView;
 import chess.view.OutputView;
 
@@ -28,8 +28,8 @@ public class ChessGame {
 
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
-    private final RoomRepository roomRepository = new RoomDao();
-    private final MoveRepository moveRepository = new MoveDao();
+    private final RoomRepository roomRepository = new RoomRepositoryImpl();
+    private final MoveRepository moveRepository = new MoveRepositoryImpl();
     private final Map<CommandType, Consumer<Command>> invokers;
 
     private Room room;

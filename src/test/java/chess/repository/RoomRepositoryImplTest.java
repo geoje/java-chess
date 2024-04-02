@@ -8,17 +8,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 @DisplayName("방")
-class RoomDaoTest {
+class RoomRepositoryImplTest {
 
     @Test
     @DisplayName("ID로 데이터를 가져온다.")
     void findAllByIdTest() {
         // given
         int roomId = 0;
-        final RoomDao roomDao = new RoomDao();
+        final RoomRepositoryImpl roomRepositoryImpl = new RoomRepositoryImpl();
 
         // when & then
-        assertThatCode(() -> roomDao.findById(roomId))
+        assertThatCode(() -> roomRepositoryImpl.findById(roomId))
                 .doesNotThrowAnyException();
     }
 
@@ -27,10 +27,10 @@ class RoomDaoTest {
     void findAllByUserWhiteTest() {
         // given
         String username = "seyang";
-        final RoomDao roomDao = new RoomDao();
+        final RoomRepositoryImpl roomRepositoryImpl = new RoomRepositoryImpl();
 
         // when & then
-        assertThatCode(() -> roomDao.findAllByUserWhite(username))
+        assertThatCode(() -> roomRepositoryImpl.findAllByUserWhite(username))
                 .doesNotThrowAnyException();
     }
 
@@ -39,10 +39,10 @@ class RoomDaoTest {
     void findAllByUserBlackTest() {
         // given
         String username = "seyang";
-        final RoomDao roomDao = new RoomDao();
+        final RoomRepositoryImpl roomRepositoryImpl = new RoomRepositoryImpl();
 
         // when & then
-        assertThatCode(() -> roomDao.findAllByUserBlack(username))
+        assertThatCode(() -> roomRepositoryImpl.findAllByUserBlack(username))
                 .doesNotThrowAnyException();
     }
 
@@ -51,16 +51,16 @@ class RoomDaoTest {
     void saveAndDeleteTest() {
         // given
         Room room = Room.of("whiteTester", "blackTester");
-        final RoomDao roomDao = new RoomDao();
+        final RoomRepositoryImpl roomRepositoryImpl = new RoomRepositoryImpl();
 
         // when & then
-        final Room savedRoom = roomDao.save(room);
+        final Room savedRoom = roomRepositoryImpl.save(room);
         assertThat(savedRoom.getId()).isGreaterThan(0);
 
-        final int updatedCount = roomDao.updateWinnerById(savedRoom.getId(), "blackTester");
+        final int updatedCount = roomRepositoryImpl.updateWinnerById(savedRoom.getId(), "blackTester");
         assertThat(updatedCount).isGreaterThan(0);
 
-        final int deletedCount = roomDao.deleteAllById(savedRoom.getId());
+        final int deletedCount = roomRepositoryImpl.deleteAllById(savedRoom.getId());
         assertThat(deletedCount).isGreaterThan(0);
     }
 }
