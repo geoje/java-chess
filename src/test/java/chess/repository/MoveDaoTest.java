@@ -31,7 +31,7 @@ class MoveDaoTest {
         MoveDao moveDao = new MoveDao();
 
         // when & then
-        Room room = roomDao.save(Room.from("testWhite", "testBlack"));
+        Room room = roomDao.save(Room.of("testWhite", "testBlack"));
         Move move = new Move(room.id().value(), Square.from("b2"), Square.from("b4"));
 
         final int saveCount = moveDao.save(move);

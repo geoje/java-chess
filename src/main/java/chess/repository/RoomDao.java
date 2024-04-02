@@ -19,7 +19,7 @@ public class RoomDao implements RoomRepository {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return Room.from(
+                return Room.of(
                         resultSet.getInt("id"),
                         resultSet.getString("user_white"),
                         resultSet.getString("user_black"),
@@ -40,7 +40,7 @@ public class RoomDao implements RoomRepository {
             ResultSet resultSet = statement.executeQuery();
             List<Room> list = new ArrayList<>();
             while (resultSet.next()) {
-                list.add(Room.from(
+                list.add(Room.of(
                         resultSet.getInt("id"),
                         resultSet.getString("user_white"),
                         resultSet.getString("user_black"),
@@ -61,7 +61,7 @@ public class RoomDao implements RoomRepository {
             ResultSet resultSet = statement.executeQuery();
             List<Room> list = new ArrayList<>();
             while (resultSet.next()) {
-                list.add(Room.from(
+                list.add(Room.of(
                         resultSet.getInt("id"),
                         resultSet.getString("user_white"),
                         resultSet.getString("user_black"),
@@ -81,7 +81,7 @@ public class RoomDao implements RoomRepository {
             ResultSet resultSet = statement.executeQuery(query);
             List<Room> list = new ArrayList<>();
             while (resultSet.next()) {
-                list.add(Room.from(
+                list.add(Room.of(
                         resultSet.getInt("id"),
                         resultSet.getString("user_white"),
                         resultSet.getString("user_black"),

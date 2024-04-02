@@ -67,7 +67,7 @@ public class ChessGame {
     }
 
     private void startNewGame(Command command) {
-        Room roomWithoutId = Room.from(command.getArgument(1), command.getArgument(2));
+        Room roomWithoutId = Room.of(command.getArgument(1), command.getArgument(2));
         room = roomRepository.save(roomWithoutId);
         board = BoardFactory.createBoard();
         outputView.printRoom(room);
@@ -85,6 +85,9 @@ public class ChessGame {
         moves.forEach(move -> board.move(move.source(), move.target()));
         outputView.printRoom(room);
         outputView.printBoard(board.getPiecesStatus());
+        if (board.isKingCaptured()) {
+            throw new IllegalArgumentException("이미 게임이 종료된 방 입니다.");
+        }
     }
 
     private void printRoom(Command command) {
@@ -104,7 +107,7 @@ public class ChessGame {
     }
 
     private void moveAndPrint(Command command) {
-        int roomId = room.id().value();
+        int roomId = room.getId();
         String source = command.getArgument(1);
         String target = command.getArgument(2);
         moveRepository.save(Move.from(roomId, source, target));
@@ -121,7 +124,7 @@ public class ChessGame {
             return;
         }
         final String winnerUsername = getWinnerUsername();
-        roomRepository.updateWinnerById(room.id().value(), winnerUsername);
+        roomRepository.updateWinnerById(room.getId(), winnerUsername);
         outputView.printWinner(winnerUsername);
     }
 

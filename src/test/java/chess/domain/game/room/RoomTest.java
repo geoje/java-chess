@@ -13,7 +13,7 @@ class RoomTest {
     @DisplayName("흰색 검은색 유저 이름으로만 변환한다.")
     void fromTest() {
         // given
-        Room room = Room.from("whiteTester", "blackTester");
+        Room room = Room.of("whiteTester", "blackTester");
         Room expected = new Room(new RoomId(-1), new User("whiteTester"), new User("blackTester"), new User(""));
 
         // when & then
@@ -24,7 +24,7 @@ class RoomTest {
     @DisplayName("흰색 검은색 유저 이름으로만 변환한다.")
     void fromAllTest() {
         // given
-        Room room = Room.from(-1, "whiteTester", "blackTester", "");
+        Room room = Room.of(-1, "whiteTester", "blackTester", "");
         Room expected = new Room(new RoomId(-1), new User("whiteTester"), new User("blackTester"), new User(""));
 
         // when & then

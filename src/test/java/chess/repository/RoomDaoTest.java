@@ -50,7 +50,7 @@ class RoomDaoTest {
     @DisplayName("데이터를 저장, 업데이트, 삭제한다.")
     void saveAndDeleteTest() {
         // given
-        Room room = Room.from("whiteTester", "blackTester");
+        Room room = Room.of("whiteTester", "blackTester");
         final RoomDao roomDao = new RoomDao();
 
         // when & then
