@@ -3,6 +3,7 @@ package chess.view;
 import chess.domain.piece.PieceColor;
 
 public enum PieceMapper {
+
     KING('k'),
     QUEEN('q'),
     ROOK('r'),

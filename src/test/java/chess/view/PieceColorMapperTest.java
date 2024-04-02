@@ -9,6 +9,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 @DisplayName("기물 색상명")
 class PieceColorMapperTest {
+
     @Test
     @DisplayName("도메인의 모든 기물 색상이 변환될 수 있다.")
     void mapForAll() {

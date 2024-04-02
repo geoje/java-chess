@@ -1,6 +1,7 @@
 package chess.view;
 
 public enum PieceColorMapper {
+
     WHITE("흰색"),
     BLACK("검은색");
 

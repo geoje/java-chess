@@ -13,6 +13,7 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 @DisplayName("스퀘어")
 class SquareTest {
+
     @Test
     @DisplayName("사용자 입력으로 들어온 좌표를 파일과 랭크로 변환한다.")
     void convertUserInputToFileAndRankTest() {

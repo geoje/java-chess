@@ -7,6 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("이동")
 class MoveTest {
+
     @Test
     @DisplayName("문자열을 통해 생성한다.")
     void fromTest() {

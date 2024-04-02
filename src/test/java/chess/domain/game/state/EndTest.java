@@ -15,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 @DisplayName("종료 상태")
 class EndTest {
+
     @ParameterizedTest
     @ValueSource(strings = {"start a b", "move b1 b2", "status"})
     @DisplayName("모든 명령에 대해 예외가 발생한다.")
