@@ -76,10 +76,8 @@ public class ChessGame {
 
     private void resumeGame(Command command) {
         RoomId roomId = RoomId.from(command.getArgument(1));
-        room = roomRepository.findById(roomId.value());
-        if (room == null) {
-            throw new IllegalArgumentException("존재하지 않는 방입니다.");
-        }
+        room = roomRepository.findById(roomId.value())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 방입니다."));
         board = BoardFactory.createBoard();
         List<Move> moves = moveRepository.findAllByRoomId(room.getId());
         moves.forEach(move -> board.move(move.source(), move.target()));

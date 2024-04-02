@@ -3,10 +3,11 @@ package chess.repository;
 import chess.domain.game.room.Room;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RoomRepository {
-    
-    Room findById(int id);
+
+    Optional<Room> findById(int id);
 
     List<Room> findAllByUserWhite(String userWhite);
 

@@ -9,27 +9,32 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class RoomRepositoryImpl implements RoomRepository {
 
     @Override
-    public Room findById(int id) {
+    public Optional<Room> findById(int id) {
         final var query = "SELECT * FROM room WHERE id = ?";
         try (final var statement = JdbcConnection.getConnection().prepareStatement(query)) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                return Room.of(
-                        resultSet.getInt("id"),
-                        resultSet.getString("user_white"),
-                        resultSet.getString("user_black"),
-                        resultSet.getString("winner")
-                );
-            }
-            return null;
+            return getFirstRoomFromResult(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private Optional<Room> getFirstRoomFromResult(ResultSet resultSet) throws SQLException {
+        if (resultSet.next()) {
+            return Optional.of(Room.of(
+                    resultSet.getInt("id"),
+                    resultSet.getString("user_white"),
+                    resultSet.getString("user_black"),
+                    resultSet.getString("winner")
+            ));
+        }
+        return Optional.empty();
     }
 
     @Override
