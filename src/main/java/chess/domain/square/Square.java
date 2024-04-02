@@ -28,7 +28,7 @@ public class Square {
     }
 
     public static Square of(final File file, final Rank rank) {
-        String squareKey = generateSquareKey(file, rank);
+        String squareKey = generateKey(file, rank);
         return CACHE.computeIfAbsent(squareKey, k -> new Square(file, rank));
     }
 
@@ -38,8 +38,8 @@ public class Square {
         }
     }
 
-    private static String generateSquareKey(final File file, final Rank rank) {
-        return String.valueOf(file.toInput()) + rank.toInput();
+    private static String generateKey(final File file, final Rank rank) {
+        return String.valueOf(file.convertToKey()) + rank.convertToKey();
     }
 
     public List<Square> generatePath(final Square target) {
@@ -103,8 +103,8 @@ public class Square {
         return rank.getIndex();
     }
 
-    public String toInput() {
-        return generateSquareKey(file, rank);
+    public String convertToKey() {
+        return generateKey(file, rank);
     }
 
     @Override

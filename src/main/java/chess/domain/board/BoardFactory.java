@@ -47,7 +47,9 @@ public class BoardFactory {
 
     private static Piece createPiece(Rank rank, PieceColor pieceColor, File file) {
         Square square = Square.of(file, rank);
-        return PIECES_ARRANGEMENT.get(file.getIndex()).apply(pieceColor, square);
+        int fileIndex = file.getIndex();
+        return PIECES_ARRANGEMENT.get(fileIndex)
+                .apply(pieceColor, square);
     }
 
     private static Set<Piece> createPawns(final Rank rank, final PieceColor pieceColor) {

@@ -78,6 +78,6 @@ class RankTest {
         Rank rank = Rank.from('5');
 
         // when & then
-        assertThat(rank.toInput()).isEqualTo('5');
+        assertThat(rank.convertToKey()).isEqualTo('5');
     }
 }

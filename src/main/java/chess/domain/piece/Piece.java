@@ -17,14 +17,26 @@ public abstract class Piece {
 
     public abstract PieceType getType();
 
+    public String getTypeName() {
+        return getType().name();
+    }
+
     public abstract double getScore(Board board);
 
     public boolean isLocated(final Square other) {
         return square.equals(other);
     }
 
+    public boolean isColor(PieceColor color) {
+        return color == this.color;
+    }
+
     public PieceColor getColor() {
         return color;
+    }
+
+    public String getColorName() {
+        return color.name();
     }
 
     public Square getSquare() {

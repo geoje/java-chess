@@ -32,7 +32,7 @@ class MoveDaoTest {
 
         // when & then
         Room room = roomDao.save(Room.of("testWhite", "testBlack"));
-        Move move = new Move(room.getId(), Square.from("b2"), Square.from("b4"));
+        Move move = new Move(room.id(), Square.from("b2"), Square.from("b4"));
 
         final int saveCount = moveDao.save(move);
         assertThat(saveCount).isGreaterThan(0);

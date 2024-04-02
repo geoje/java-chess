@@ -45,7 +45,7 @@ public enum Rank {
         return Math.abs(compareTo(other));
     }
 
-    public char toInput() {
+    public char convertToKey() {
         return (char) (FIRST_INPUT - index);
     }
 

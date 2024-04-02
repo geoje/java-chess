@@ -76,14 +76,16 @@ public class OutputView {
 
     private void setPiecesOnBoard(final char[][] board, final List<PieceDrawing> pieceDrawings) {
         for (PieceDrawing pieceDrawing : pieceDrawings) {
+            int rankIndex = pieceDrawing.rankIndex();
+            int fileIndex = pieceDrawing.fileIndex();
             char pieceSymbol = PieceMapper.map(pieceDrawing.typeName(), pieceDrawing.colorName());
-            board[pieceDrawing.rankIndex()][pieceDrawing.fileIndex()] = pieceSymbol;
+            board[rankIndex][fileIndex] = pieceSymbol;
         }
     }
 
     public void printScores(GameStatus gameStatus) {
-        System.out.printf(WHITE_SCORE_FORMAT, gameStatus.whiteScore());
-        System.out.printf(BLACK_SCORE_FORMAT, gameStatus.blackScore());
+        System.out.printf(WHITE_SCORE_FORMAT, gameStatus.getWhiteScore());
+        System.out.printf(BLACK_SCORE_FORMAT, gameStatus.getBlackScore());
         System.out.println();
     }
 

@@ -27,7 +27,7 @@ public class Knight extends Piece {
     }
 
     private void validateFriendly(final Board board, final Square target) {
-        if (board.existOnSquareWithColor(target, getColor())) {
+        if (board.existOnSquareWithColor(target, color)) {
             throw new IllegalArgumentException("나이트의 목적지에 같은 색 기물이 존재합니다.");
         }
     }

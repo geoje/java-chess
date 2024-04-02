@@ -1,5 +1,6 @@
 package chess.domain.square;
 
+import chess.domain.game.room.RoomId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,7 @@ class MoveTest {
     void fromTest() {
         // given
         final Move move = Move.from(0, "b2", "b4");
-        Move expected = new Move(0,
+        Move expected = new Move(new RoomId(0),
                 Square.of(File.B, Rank.TWO),
                 Square.of(File.B, Rank.FOUR));
 

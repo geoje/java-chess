@@ -34,9 +34,9 @@ public class MoveDao implements MoveRepository {
     public int save(final Move move) {
         final var query = "INSERT INTO move (room_id, source, target) VALUES (?, ?, ?)";
         try (final var statement = JdbcConnection.getConnection().prepareStatement(query)) {
-            statement.setInt(1, move.roomId());
-            statement.setString(2, move.source().toInput());
-            statement.setString(3, move.target().toInput());
+            statement.setInt(1, move.getRoomId());
+            statement.setString(2, move.getSourceKey());
+            statement.setString(3, move.getTargetKey());
             return statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

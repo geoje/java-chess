@@ -1,9 +1,9 @@
 package chess.domain.board;
 
 import chess.domain.piece.King;
-import chess.domain.piece.Pawn;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
+import chess.domain.piece.PieceType;
 import chess.domain.square.Square;
 import chess.dto.GameStatus;
 import chess.dto.PieceDrawing;
@@ -33,7 +33,7 @@ public class Board {
     }
 
     private void validateTurn(final Piece sourcePiece) {
-        if (sourcePiece.getColor() != turn) {
+        if (!sourcePiece.isColor(turn)) {
             throw new IllegalArgumentException("선택한 기물의 팀의 차례가 아닙니다.");
         }
     }
@@ -51,7 +51,7 @@ public class Board {
 
     public boolean existOnSquareWithColor(final Square square, final PieceColor pieceColor) {
         return pieces.stream()
-                .anyMatch(piece -> piece.isLocated(square) && piece.getColor() == pieceColor);
+                .anyMatch(piece -> piece.isLocated(square) && piece.isColor(pieceColor));
     }
 
     private Piece findPiece(final Square square) {
@@ -63,20 +63,20 @@ public class Board {
 
     private void removeTargetPieceIfAttacked(final Piece sourcePiece, final Square targetSquare) {
         pieces.removeIf(piece -> piece.isLocated(targetSquare)
-                && piece.getColor() != sourcePiece.getColor());
+                && !piece.isColor(sourcePiece.getColor()));
     }
 
     public int getPawnCountOnSameFile(final Square square, final PieceColor color) {
         return (int) pieces.stream()
                 .filter(piece -> square.isSameFile(piece.getSquare()))
-                .filter(piece -> color == piece.getColor())
-                .filter(piece -> piece instanceof Pawn)
+                .filter(piece -> piece.isColor(color))
+                .filter(piece -> piece.getType() == PieceType.PAWN)
                 .count();
     }
 
     public boolean isKingCaptured() {
         return pieces.stream()
-                .filter(piece -> piece instanceof King)
+                .filter(piece -> piece.getType() == PieceType.KING)
                 .count() <= SINGLE_KING_COUNT;
     }
 
@@ -89,12 +89,12 @@ public class Board {
     public GameStatus getGameStatus() {
         double whiteScore = calculateTotalScore(PieceColor.WHITE);
         double blackScore = calculateTotalScore(PieceColor.BLACK);
-        return new GameStatus(whiteScore, blackScore);
+        return GameStatus.from(whiteScore, blackScore);
     }
 
     private double calculateTotalScore(final PieceColor color) {
         return pieces.stream()
-                .filter(piece -> color == piece.getColor())
+                .filter(piece -> piece.isColor(color))
                 .mapToDouble(piece -> piece.getScore(this))
                 .sum();
     }

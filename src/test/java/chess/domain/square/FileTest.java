@@ -78,6 +78,6 @@ class FileTest {
         File file = File.from('c');
 
         // when & then
-        assertThat(file.toInput()).isEqualTo('c');
+        assertThat(file.convertToKey()).isEqualTo('c');
     }
 }

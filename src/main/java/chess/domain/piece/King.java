@@ -26,7 +26,7 @@ public class King extends Piece {
     }
 
     private void validateFriendly(final Board board, final Square target) {
-        if (board.existOnSquareWithColor(target, getColor())) {
+        if (board.existOnSquareWithColor(target, color)) {
             throw new IllegalArgumentException("킹의 목적지에 같은 색 기물이 존재합니다.");
         }
     }
