@@ -240,7 +240,7 @@ class BoardTest {
         GameStatus gameStatus = board.getGameStatus();
 
         // then
-        assertThat(gameStatus).isEqualTo(new GameStatus(42, 42));
+        assertThat(gameStatus).isEqualTo(GameStatus.from(38, 38));
     }
 
     @Test
@@ -261,7 +261,7 @@ class BoardTest {
         GameStatus gameStatus = board.getGameStatus();
 
         // then
-        assertThat(gameStatus).isEqualTo(new GameStatus(11, 17));
+        assertThat(gameStatus).isEqualTo(GameStatus.from(11, 15));
     }
 
     @Test

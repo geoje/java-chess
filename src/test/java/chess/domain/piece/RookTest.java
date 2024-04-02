@@ -122,6 +122,6 @@ class RookTest {
         double score = rook.getScore(board);
 
         // then
-        assertThat(score).isEqualTo(7);
+        assertThat(score).isEqualTo(5);
     }
 }
